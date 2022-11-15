@@ -1,17 +1,47 @@
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
 
-const checkAuth = (req, res, next) => {
-    try {
-        const token = req.headers.authorization.split(" ")[1];
-        const decoded = jwt.verify(token, process.env.JWT_KEY);
-        req.userData = decoded;
-        next();
-    } catch (error) {
-        return res.status(401).json({
-            message: 'Auth failed'
-        });
+const checkUser = (req, res, next) => {
+    const { authorization } = req.headers;
+    if (!authorization) {
+        return res.status(401).json({ error: 'Unauthorized' });
     }
+
+    const token = authorization.replace('Bearer ', '');
+    jwt.verify(token, process.env.JWT_SECRET, (error, payload) => {
+        if (error) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+
+        if (payload.role === 'user') {
+            req.user = payload;
+            next();
+        }
+        else {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+    });
 }
 
-module.exports = checkAuth;
+const checkAdmin = (req, res, next) => {
+    const { authorization } = req.headers;
+    if (!authorization) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const token = authorization.replace('Bearer ', '');
+    jwt.verify(token, process.env.JWT_SECRET, (error, payload) => {
+        if (error) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+
+        if (payload.role === 'admin') {
+            req.user = payload;
+            next();
+        }
+        else {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+    });
+}
+
+module.exports = { checkUser, checkAdmin };
