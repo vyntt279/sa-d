@@ -1,9 +1,11 @@
 import './App.css';
-import HomePage from './pages/HomePage';
+import LogIn from './pages/auth/LogIn';
+import Home from './pages/customer/home/Home'
 
-function App() {
+const App = () => {
   return (
-    <HomePage></HomePage>
+    // <LogIn />
+    <Home />
   );
 }
 
