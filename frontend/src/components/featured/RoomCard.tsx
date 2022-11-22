@@ -1,4 +1,5 @@
 import { Button, Modal } from "antd";
+import BookingForm from "components/bookingForm/BookingForm";
 import { useState } from 'react';
 
 import "./featured.css";
@@ -27,15 +28,13 @@ const RoomCard = (props: RoomCardProps) => {
           Book now
         </Button>
         <Modal
-          title="Vertically centered modal dialog"
+          title="Booking Form"
           centered
           open={modal2Open}
           onOk={() => setModal2Open(false)}
           onCancel={() => setModal2Open(false)}
         >
-          <p>some contents...</p>
-          <p>some contents...</p>
-          <p>some contents...</p>
+          <BookingForm />
         </Modal>
       </div>
     </div>

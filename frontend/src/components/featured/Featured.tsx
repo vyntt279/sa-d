@@ -1,11 +1,7 @@
-import { Button, Modal } from "antd";
-import { useState } from 'react';
-
 import "./featured.css";
 import RoomCard from "./RoomCard";
 
 const Featured = () => {
-  const [modal2Open, setModal2Open] = useState(false);
   return (
     <div className="featured">
       <RoomCard
