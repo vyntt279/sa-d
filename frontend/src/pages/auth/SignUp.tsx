@@ -1,7 +1,7 @@
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Button, Form, Input, Space } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons'
 import bg from '../../assets/bg.jpg'
-const LogIn = () => {
+const SignUp = () => {
   const onFinish = (values: any) => {
     console.log('Success:', values);
   };
@@ -23,8 +23,8 @@ const LogIn = () => {
           onFinishFailed={onFinishFailed}
         >
           <Button type="link" href='/' size='large' icon={<ArrowLeftOutlined />} />
-          <p className="form-title">Welcome back</p>
-          <p>Login to the BookingHotel</p>
+          <p className="form-title">Hello new friends</p>
+          <p>Sign up to the BookingHotel</p>
           <Form.Item
             name="username"
             rules={[{ required: true, message: 'Please input your username!' }]}
@@ -43,18 +43,23 @@ const LogIn = () => {
             />
           </Form.Item>
 
-          <Form.Item name="remember" valuePropName="checked">
-            <Checkbox>Remember me</Checkbox>
+          <Form.Item
+            name="repeatedPassword"
+            rules={[{ required: true, message: 'Please input your password!' }]}
+          >
+            <Input.Password
+              placeholder="Repeated password"
+            />
           </Form.Item>
 
           <Form.Item>
             <Button type="primary" htmlType="submit" className="login-form-button">
-              LOGIN
+              SIGN UP
             </Button>
           </Form.Item>
         </Form>
       </div>
-    </div>
+    </div >
   );
 };
-export default LogIn;
+export default SignUp;
