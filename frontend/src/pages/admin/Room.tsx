@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import type { InputRef } from 'antd';
-import { Button, Form, Input, Popconfirm, Table, Tag, notification  } from 'antd';
+import { Button, Form, Input, Popconfirm, Table, Tag, notification } from 'antd';
 import type { FormInstance } from 'antd/es/form';
 import Item from 'antd/es/list/Item';
 import { SmileOutlined } from '@ant-design/icons';
@@ -8,7 +8,7 @@ import { SmileOutlined } from '@ant-design/icons';
 const EditableContext = React.createContext<FormInstance<any> | null>(null);
 
 interface Item {
-    key: string | number;
+    key: React.Key;
     classification: string[];
     RNo: number;
     size: string;
@@ -22,15 +22,15 @@ interface EditableRowProps {
 
 const openNotification = () => {
     notification.open({
-      message: 'Add blank room',
-      description:
-        'In this fuction, the system will create a blank row at the end of the table. To edit the row, just double click the value you want to change :v',
+        message: 'Add blank room',
+        description:
+            'In this fuction, the system will create a blank row at the end of the table. To edit the row, just double click the value you want to change :v',
         icon: <SmileOutlined style={{ color: '#54c577' }} />,
         onClick: () => {
-        console.log('Add room!');
-      },
+            console.log('Add room!');
+        },
     });
-  };
+};
 
 const EditableRow: React.FC<EditableRowProps> = ({ index, ...props }) => {
     const [form] = Form.useForm();
@@ -122,6 +122,7 @@ interface DataType {
     size: string;
     price: number;
     status: string[];
+    description: string;
 }
 
 type ColumnTypes = Exclude<EditableTableProps['columns'], undefined>;
@@ -135,6 +136,7 @@ const Room: React.FC = () => {
             size: 72 + "m²",
             price: 3000000,
             status: ['Booked'],
+            description: 'jghda jhafgdskjah kjagdjkh kujgadhkj kjdgasdkja skdjsahdkjadgsdjkhdas',
         },
         {
             key: '1',
@@ -143,6 +145,7 @@ const Room: React.FC = () => {
             size: 36 + "m²",
             price: 2000000,
             status: ['Available'],
+            description: 'jghda jhafgdskjah kjagdjkh kujgadhkj kjdgasdkja skdjsahdkjadgsdjkhdas',
         },
         {
             key: '2',
@@ -151,6 +154,7 @@ const Room: React.FC = () => {
             size: 24 + "m²",
             price: 1000000,
             status: ['Unavailable'],
+            description: 'jghda jhafgdskjah kjagdjkh kujgadhkj kjdgasdkja skdjsahdkjadgsdjkhdas',
         },
         {
             key: '3',
@@ -159,6 +163,7 @@ const Room: React.FC = () => {
             size: 15 + "m²",
             price: 500000,
             status: ['Booked'],
+            description: 'jghda jhafgdskjah kjagdjkh kujgadhkj kjdgasdkja skdjsahdkjadgsdjkhdas',
         },
     ]);
 
@@ -206,8 +211,14 @@ const Room: React.FC = () => {
             editable: true,
         },
         {
+            title: 'Description',
+            dataIndex: 'description',
+            editable: true,
+        },
+        {
             title: 'Status',
             dataIndex: 'status',
+            editable: false,
             render: (status: string[]) => (
                 <span>
                     {status.map((status) => {
@@ -216,7 +227,7 @@ const Room: React.FC = () => {
                             color = 'volcano';
                         }
                         else if (status === 'Booked') {
-                            color = 'yellow';
+                            color = 'gold';
                         }
                         return (
                             <Tag color={color} key={status}>
@@ -230,14 +241,34 @@ const Room: React.FC = () => {
         {
             title: 'operation',
             dataIndex: 'operation',
-            render:() => <a>Delete</a>
-            // render: (_,record:{key: React.Key},any) =>
-            //     dataSource.length >= 1 ? (
-            //         <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
-            //             <a>Delete</a>
-            //         </Popconfirm>
-            //     ) : null,
-        },
+            // render: (_, record: { key: React.Key }) =>
+            //   dataSource.length >= 1 ? (
+            //     <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
+            //       <a>Delete</a>
+            //     </Popconfirm>
+            //   ) : null,
+          },
+        // {
+        //     title: 'operation',
+        //     dataIndex: 'operation',
+        //     // render: () => <a>Delete</a>
+        //     render: (_,record:{key: React.Key},any) =>
+        //         dataSource.length >= 1 ? (
+        //             <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
+        //                 <a>Delete</a>
+        //             </Popconfirm>
+        //         ):
+        //     render: (text, record:{key: React.Key}, number) =>    //second render
+        //         dataSource.length >= 1 ? (
+        //             <Popconfirm
+        //                 title="Sure to delete?"
+        //                 onConfirm={() => handleDelete(record.key)}
+        //             >
+        //                 <a>Delete</a>
+        //             </Popconfirm>
+        //         ) : null
+        //     render: (_, record:{key: React.Key}) => handleDelete(record.key),
+        // },
     ];
 
     const handleAdd = () => {
@@ -248,6 +279,7 @@ const Room: React.FC = () => {
             size: 0 + "m²",
             price: 0,
             status: ['Available'],
+            description: 'N/A',
         };
         setDataSource([...dataSource, newData]);
         setCount(count + 1);
@@ -289,7 +321,7 @@ const Room: React.FC = () => {
 
     return (
         <div>
-            <Button onClick={function(event){ handleAdd(); openNotification()}} type="primary" style={{ margin: 16 }} >
+            <Button onClick={function (event) { handleAdd(); openNotification() }} type="primary" style={{ margin: 16 }} >
                 Add a room
             </Button>
             <Table
