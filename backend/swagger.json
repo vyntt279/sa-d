@@ -1,0 +1,221 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Hotel Management System",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "paths": {
+        "/users/register": {
+            "post": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Register a new user",
+                "operationId": "registerUser",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "fullName": {
+                                        "type": "string"
+                                    },
+                                    "phone": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "description": "User object that needs to be added to the system",
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "token": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/users/login": {
+            "post": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Login a user",
+                "operationId": "loginUser",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "description": "Email and password of the user",
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "token": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/bookings/create": {
+            "post": {
+                "tags": [
+                    "bookings"
+                ],
+                "summary": "Create a new booking",
+                "operationId": "createBooking",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "roomNum": {
+                                        "type": "string"
+                                    },
+                                    "fromTime": {
+                                        "type": "string"
+                                    },
+                                    "toTime": {
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "type": "string"
+                                    },
+                                    "paymentMethod": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "description": "Booking object that needs to be added to the system",
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "bookingId": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/bookings/delete": {
+            "post": {
+                "tags": [
+                    "bookings"
+                ],
+                "summary": "Delete a booking",
+                "operationId": "deleteBooking",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "bookingId": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "description": "Booking object that needs to be deleted from the system",
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "bookingId": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        }
+    }
+}
