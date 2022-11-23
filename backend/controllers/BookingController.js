@@ -1,5 +1,22 @@
 const { firestore } = require('../firebase/firebase');
 
+const getRoom = async (req, res) => {
+    const snapshot = await firestore.collection('rooms').get();
+    const list = snapshot.docs.map((doc) => ({id: doc.id, ...doc.data()}));
+    res.send(list);
+}
+
+const getBooking = async (req, res) => {
+    const { uid } = req.user;
+
+    const snapshot = await firestore
+    .collection('bookings')
+    .where("userId", '==', uid)
+    .get();
+    
+    const list = snapshot.docs.map((doc) => ({id: doc.id, ...doc.data()}));
+    res.send(list);
+}
 const createBooking = async (req, res) => {
     const { 
         roomNum, 
@@ -62,4 +79,4 @@ const deleteBooking = async (req, res) => {
     }
 }
 
-module.exports = { createBooking, deleteBooking };
+module.exports = { getRoom, getBooking, createBooking, deleteBooking };
