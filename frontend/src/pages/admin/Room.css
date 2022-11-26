@@ -5,6 +5,7 @@
     padding: 1rem;
   }
   table {
+    table-layout: auto;
     border-collapse: collapse;
     width: 100%;
   }
@@ -32,9 +33,11 @@
   
   form td:last-child {
     display: inline-block;
-    justify-content: flex-start;
+    justify-content: space-evenly;
   }
   
   form * {
     font-size: 20px;
   }
+
+  .ant-table Table { font-size: "10px"; }
