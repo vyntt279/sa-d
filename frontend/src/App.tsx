@@ -1,7 +1,7 @@
 import './App.css';
 import LogIn from './pages/auth/LogIn';
 import Home from './pages/customer/home/Home'
-import MainRoom from 'pages/admin/MainRoom';
+import Admin from 'pages/admin/Admin';
 import { Fragment } from 'react';
 
 const App = () => {
@@ -10,7 +10,7 @@ const App = () => {
     <Fragment>
 
       <Home />
-      <MainRoom/>
+      <Admin/>
 
     </Fragment>
   );
