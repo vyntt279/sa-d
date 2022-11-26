@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout, Menu, Tabs } from 'antd';
-import Room from './Room';
+import Room from './Room.js';
 import ViewBooking from './ViewBooking';
 
 const { Header, Content, Footer } = Layout;

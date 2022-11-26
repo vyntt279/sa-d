@@ -178,6 +178,7 @@ const Room: React.FC = () => {
         {
             title: 'Room type',
             dataIndex: 'classification',
+            key: 'classification',
             editable: true,
             // render: (classification: string[]) => (
             //     <span>
@@ -198,26 +199,31 @@ const Room: React.FC = () => {
         {
             title: 'Room No.',
             dataIndex: 'RNo',
+            key: 'RNo',
             editable: true,
         },
         {
             title: 'Size',
             dataIndex: 'size',
+            key: 'size',
             editable: true,
         },
         {
             title: 'Price (VND)',
             dataIndex: 'price',
+            key: 'price',
             editable: true,
         },
         {
             title: 'Description',
             dataIndex: 'description',
+            key: 'description',
             editable: true,
         },
         {
             title: 'Status',
             dataIndex: 'status',
+            key: 'status',
             editable: false,
             render: (status: string[]) => (
                 <span>
@@ -241,9 +247,10 @@ const Room: React.FC = () => {
         {
             title: 'operation',
             dataIndex: 'operation',
-            render: (_, record: { key: React.Key }) =>
+            key: 'operation',
+            render: (key: React.Key) =>
               dataSource.length >= 1 ? (
-                <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
+                <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(key)}>
                   <a>Delete</a>
                 </Popconfirm>
               ) : null,
