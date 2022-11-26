@@ -119,18 +119,7 @@ const data: DataType[] = [
         end: '2021-11-23 20:00',
         price: 300000,
         status: ['Check Out'],
-    },
-    {
-        no: 4,
-        email: 'test@test.com.vn',
-        name: 'test test',
-        roomtype: 'STANDARD (STD)',
-        roomNo: 308,
-        start: '2020-11-24 19:00',
-        end: '2020-11-24 20:00',
-        price: 30000,
-        status: ['Cancel'],
-    },
+    }
 ];
 
 const ViewBooking: React.FC = () => <Table columns={columns} dataSource={data} />;
