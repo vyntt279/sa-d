@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import './App.css';
 import Home from './pages/customer/home/Home'
-import Booking from "pages/customer/booking/booking";
+// import Booking from "pages/customer/booking/booking";
 
 
 const App = () => {
@@ -15,7 +15,7 @@ const App = () => {
           <Route path="login" element={<LogIn />} />
           <Route path="signup" element={<SignUp />} />
           <Route path="*" element={<Home />} />
-          <Route path="booking" element={<Booking />} />
+          {/* <Route path="booking" element={<Booking />} /> */}
       </Routes>
     </BrowserRouter>
   )
