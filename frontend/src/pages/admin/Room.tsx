@@ -241,12 +241,12 @@ const Room: React.FC = () => {
         {
             title: 'operation',
             dataIndex: 'operation',
-            // render: (_, record: { key: React.Key }) =>
-            //   dataSource.length >= 1 ? (
-            //     <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
-            //       <a>Delete</a>
-            //     </Popconfirm>
-            //   ) : null,
+            render: (_, record: { key: React.Key }) =>
+              dataSource.length >= 1 ? (
+                <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
+                  <a>Delete</a>
+                </Popconfirm>
+              ) : null,
           },
         // {
         //     title: 'operation',
