@@ -3,7 +3,7 @@
         "id": 1,
         "roomtype": "Standard",
         "roomNo": "543",
-        "size": "36m2",
+        "size": "36 m²",
         "price": "350000",
         "status": "Available",
         "description": " test"
@@ -12,7 +12,7 @@
         "id": 2,
         "roomtype": "Standard",
         "roomNo": "543",
-        "size": "36m2",
+        "size": "36 m²",
         "price": "350000",
         "status": "Available",
         "description": " test"
@@ -21,7 +21,7 @@
         "id": 3,
         "roomtype": "Standard",
         "roomNo": "543",
-        "size": "36m2",
+        "size": "36 m²",
         "price": "350000",
         "status": "Available",
         "description": " test"
@@ -30,7 +30,7 @@
         "id": 4,
         "roomtype": "Standard",
         "roomNo": "543",
-        "size": "36m2",
+        "size": "36 m²",
         "price": "350000",
         "status": "Available",
         "description": " test"
@@ -39,7 +39,7 @@
         "id": 5,
         "roomtype": "Standard",
         "roomNo": "543",
-        "size": "36m2",
+        "size": "36 m²",
         "price": "350000",
         "status": "Available",
         "description": " test"

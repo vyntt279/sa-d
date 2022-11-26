@@ -4,6 +4,7 @@ import data from "./mock-data.json";
 import "./Room.css";
 import ReadOnlyRow from "./ReadOnlyRow";
 import EditableRow from "./EditableRow";
+import { Button, Modal, Input } from 'antd';
 
 const Room = () => {
     const [contacts, setContacts] = useState(data);
@@ -121,8 +122,26 @@ const Room = () => {
         setContacts(newContacts);
     };
 
+    const [loading, setLoading] = useState(false);
+    const [open, setOpen] = useState(false);
+    const showModal = () => {
+        setOpen(true);
+    };
+    const handleOk = () => {
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+            setOpen(false);
+        }, 3000);
+    };
+    const handleCancel = () => {
+        setOpen(false);
+    };
+    const { TextArea } = Input;
+
     return (
         <div className="app-container">
+            <h2>Room details</h2>
             <form onSubmit={handleEditFormSubmit}>
                 <table>
                     <thead>
@@ -159,7 +178,7 @@ const Room = () => {
             </form>
 
             <h2>Add a Room</h2>
-            <form onSubmit={handleAddFormSubmit}>
+            {/* <form onSubmit={handleAddFormSubmit}>
                 <input
                     type="text"
                     name="roomtype"
@@ -203,7 +222,75 @@ const Room = () => {
                     onChange={handleAddFormChange}
                 />
                 <button type="submit">Add</button>
-            </form>
+            </form> */}
+            <Button type="primary" onClick={showModal}>
+                Add a room
+            </Button>
+            <Modal
+                open={open}
+                title="Add a room"
+                onOk={handleOk}
+                onCancel={handleCancel}
+                footer={[
+                    <Button key="back" onClick={handleCancel}>
+                        Return
+                    </Button>,
+
+                ]}
+            >
+                <form onSubmit={handleAddFormSubmit}>
+                    <strong>Room type:</strong>
+                    <Input
+                        type="text"
+                        name="roomtype"
+                        required="required"
+                        placeholder="Enter a room type..."
+                        onChange={handleAddFormChange}
+                    />
+                    <strong>Room number:</strong>
+                    <Input
+                        type="text"
+                        name="roomNo"
+                        required="required"
+                        placeholder="Enter an room number..."
+                        onChange={handleAddFormChange}
+                    />
+                    <strong>Room size:</strong>
+                    <Input
+                        type="text"
+                        name="size"
+                        required="required"
+                        placeholder="Enter a size..."
+                        onChange={handleAddFormChange}
+                    />
+                    <strong>Room price:</strong>
+                    <Input
+                        type="text"
+                        name="price"
+                        required="required"
+                        placeholder="Enter an price..."
+                        onChange={handleAddFormChange}
+                    />
+                    <strong>Room availability:</strong>
+                    <Input
+                        type="text"
+                        name="status"
+                        required="required"
+                        placeholder="Enter an status..."
+                        onChange={handleAddFormChange}
+                    />
+                    <strong>More about room info:</strong>
+                    <TextArea showCount maxLength={100}
+                        type="text"
+                        name="description"
+                        required="required"
+                        placeholder="Enter an description..."
+                        onChange={handleAddFormChange}
+                    />
+                    <br></br>
+                    <button type="submit">Add</button>
+                </form>
+            </Modal>
         </div>
     );
 };
