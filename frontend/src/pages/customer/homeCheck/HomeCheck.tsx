@@ -18,10 +18,10 @@ const HomeCheck = () => {
         <h1 className="checkOutTitle">Check out</h1>
         <Checkout />
         <CheckingBorder />
-        <div className="legger">
-          <h1 className="Title">Happy, Patient!</h1>
+        {/* <div className="legger">
+          <h1 className="Title">Be Happy, Be Patient!</h1>
           <span className="Desc">Be good to your customer</span>
-        </div>
+        </div> */}
         <Footer />
       </div>
     </div>
