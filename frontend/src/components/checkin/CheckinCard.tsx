@@ -1,5 +1,5 @@
 import { Button, Modal } from "antd";
-import CheckinForm from "components/checkinForm/BookingForm";
+import CheckinForm from "components/checkinForm/CheckinForm";
 import { useState } from 'react';
 
 import "./featured.css";

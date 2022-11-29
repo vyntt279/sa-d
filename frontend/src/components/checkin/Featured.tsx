@@ -1,22 +1,22 @@
 import "./featured.css";
-import RoomCard from "./RoomCard";
+import CheckinCard from "./CheckinCard";
 
 const Checkin = () => {
   return (
     <div className="featured">
-      <RoomCard
+      <CheckinCard
         image={"https://cdn.cet.edu.vn/wp-content/uploads/2018/02/turndown-service-la-gi.jpg"}
         title={"TITLE"}
         subtitle={"Subtitle"}
       />
 
-      <RoomCard
+      <CheckinCard
         image={"https://cdn.cet.edu.vn/wp-content/uploads/2018/02/turndown-service-la-gi.jpg"}
         title={"TITLE"}
         subtitle={"Subtitle"}
       />
 
-      <RoomCard
+      <CheckinCard
         image={"https://cdn.cet.edu.vn/wp-content/uploads/2018/02/turndown-service-la-gi.jpg"}
         title={"TITLE"}
         subtitle={"Subtitle"}

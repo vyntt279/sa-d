@@ -10,7 +10,7 @@ type RoomCardProps = {
   subtitle: string
 }
 
-const RoomCard2 = (props: RoomCardProps) => {
+const CheckoutCard = (props: RoomCardProps) => {
   const [modal2Open, setModal2Open] = useState(false);
   const { image, title, subtitle } = props
 
@@ -33,4 +33,4 @@ const RoomCard2 = (props: RoomCardProps) => {
   )
 }
 
-export default RoomCard2;
+export default CheckoutCard;
