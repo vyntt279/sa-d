@@ -1,16 +1,41 @@
 import { useNavigate } from "react-router-dom";
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, notification } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons'
 import bg from '../../assets/bg.jpg'
-import useAuth from 'hooks/useAuth';
+import { url } from 'stores/constant'
 
 const LogIn = () => {
   var navigate = useNavigate();
-  const { setAuth, setUser } = useAuth()
-
-  const onFinish = (values: any) => {
+  const onFinish = async (values: any) => {
     console.log('Success:', values);
     // TO DO: Call API message and receive value
+    await fetch(url + "/users/login", {
+      mode: "no-cors",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: "POST",
+      body: JSON.stringify({
+        email: values.email,
+        password: values.password
+      }),
+    })
+      .then((response) => {
+        if (response != undefined) {
+          console.log(response)
+        }
+      })
+      .then((data) => {
+        console.log('Data', data)
+      })
+      .catch((reason) => {
+        console.log(reason)
+        notification.info({
+          message: `Cannot log in, please try again`,
+          placement: 'top',
+        });
+      })
     // setAuth({ role: 1, token: '' })
     // setUser({ username: values.username })
     localStorage.setItem('role', '1')
@@ -37,16 +62,24 @@ const LogIn = () => {
           <p className="form-title">Welcome back</p>
           <p>Login to the BookingHotel</p>
           <Form.Item
-            name="username"
-            rules={[{ required: true, message: 'Please input your username!' }]}
+            name="email"
+            label="E-mail"
+            rules={[
+              {
+                type: 'email',
+                message: 'The input is not valid E-mail!',
+              },
+              {
+                required: true,
+                message: 'Please input your E-mail!',
+              },
+            ]}
           >
-            <Input
-              placeholder="Username"
-            />
+            <Input />
           </Form.Item>
-
           <Form.Item
             name="password"
+            label="Password"
             rules={[{ required: true, message: 'Please input your password!' }]}
           >
             <Input.Password

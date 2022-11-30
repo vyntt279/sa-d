@@ -25,7 +25,7 @@ const RoomCard = (props: RoomCardProps) => {
         <h1>{title}</h1>
         <h2>{subtitle}</h2>
         <Button type="primary" onClick={() => setModal2Open(true)}>
-          Book now
+          Book
         </Button>
         <Modal
           title="Booking Form"

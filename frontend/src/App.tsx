@@ -7,8 +7,9 @@ import RequireAuth from "pages/auth/RequireAuth";
 import './App.css';
 import Home from 'pages/customer/home/Home'
 import BookList from "pages/customer/bookList/BookList";
-import RoomList from "pages/customer/roomList/RoomList";
+import RoomList from "components/roomList/RoomList";
 import MyLayout from "layouts/MyLayout";
+import Booking from "pages/customer/booking/Booking";
 
 const ROLES = {
   'UNSPECIFIED': 0,
@@ -28,6 +29,7 @@ const App = () => {
           {/* <Route path="/" element={<Home />} /> */}
           <Route path="bookings" element={<BookList />} />
           <Route path="rooms" element={<RoomList />} />
+          <Route path="book-process" element={<Booking />} />
         </Route>
         <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
 

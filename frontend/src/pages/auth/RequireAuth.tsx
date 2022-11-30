@@ -3,7 +3,7 @@ import { useLocation, Navigate, Outlet } from "react-router-dom";
 const RequireAuth = ({ allowedRoles }: any) => {
     const role = Number(localStorage.getItem('role'))
     const location = useLocation();
-
+    console.log(allowedRoles?.includes(role))
     return (
         // TO DO: Check role
         allowedRoles?.includes(role)
