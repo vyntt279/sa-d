@@ -10,7 +10,7 @@ const PropertyList = () => {
           className="pListImg"
         />
         <div className="pListTitles">
-          <h1>Hotels</h1>
+          <h1>Phú Quốc</h1>
           <h2>233 hotels</h2>
         </div>
       </div>

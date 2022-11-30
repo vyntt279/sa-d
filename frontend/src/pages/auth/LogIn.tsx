@@ -1,9 +1,21 @@
-import { Button, Checkbox, Form, Input } from 'antd';
+import { useNavigate } from "react-router-dom";
+import { Button, Form, Input } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons'
 import bg from '../../assets/bg.jpg'
+import useAuth from 'hooks/useAuth';
+
 const LogIn = () => {
+  var navigate = useNavigate();
+  const { setAuth, setUser } = useAuth()
+
   const onFinish = (values: any) => {
     console.log('Success:', values);
+    // TO DO: Call API message and receive value
+    // setAuth({ role: 1, token: '' })
+    // setUser({ username: values.username })
+    localStorage.setItem('role', '1')
+    localStorage.setItem('username', values.username)
+    navigate("/")
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -18,7 +30,6 @@ const LogIn = () => {
         </div>
         <Form
           name="login-form"
-          initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >
@@ -41,10 +52,6 @@ const LogIn = () => {
             <Input.Password
               placeholder="Password"
             />
-          </Form.Item>
-
-          <Form.Item name="remember" valuePropName="checked">
-            <Checkbox>Remember me</Checkbox>
           </Form.Item>
 
           <Form.Item>

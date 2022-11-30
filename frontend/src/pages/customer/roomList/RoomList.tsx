@@ -45,7 +45,7 @@ const data = [
 ];
 const count = 3
 const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat,picture&noinfo`;
-const RoomList = (props: RoomListProps) => {
+const RoomList = () => {
   const [initLoading, setInitLoading] = useState(true);
   const [data, setData] = useState<DataType[]>([]);
   const [list, setList] = useState<DataType[]>([]);
