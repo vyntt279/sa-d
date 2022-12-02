@@ -10,7 +10,7 @@ const LogIn = () => {
     console.log('Success:', values);
     // TO DO: Call API message and receive value
     await fetch(url + "/users/login", {
-      mode: "no-cors",
+      mode: "cors",
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -21,13 +21,13 @@ const LogIn = () => {
         password: values.password
       }),
     })
+      .then((response) => response.json())
       .then((response) => {
-        if (response != undefined) {
-          console.log(response)
-        }
-      })
-      .then((data) => {
-        console.log('Data', data)
+        console.log('Data', response)
+        localStorage.setItem('authorization', response.token)
+        localStorage.setItem('role', '1')
+        localStorage.setItem('username', values.email)
+        navigate("/")
       })
       .catch((reason) => {
         console.log(reason)
@@ -36,11 +36,7 @@ const LogIn = () => {
           placement: 'top',
         });
       })
-    // setAuth({ role: 1, token: '' })
-    // setUser({ username: values.username })
-    localStorage.setItem('role', '1')
-    localStorage.setItem('username', values.username)
-    navigate("/")
+    
   };
 
   const onFinishFailed = (errorInfo: any) => {

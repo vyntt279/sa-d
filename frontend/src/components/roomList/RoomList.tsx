@@ -1,15 +1,18 @@
-import { Card, List, Avatar, Space, Button } from 'antd';
+import { Card, List, Statistic, Space, Button } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { url } from 'stores/constant'
+import CarouselImage from './CarouselImage';
+import bedroom from "assets/bedroom.jpg"
+import livingroom from "assets/livingroom.jpg"
 
-const { Meta } = Card;
 export interface RoomCard {
+  bookingId: string,
+  description: string,
   id: string,
-  title: string,
   price: number,
-  subtitle: string,
-  loading: boolean;
-  img: string;
+  roomNum: string,
+  status: string,
+  type: string
 }
 
 const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
@@ -19,40 +22,6 @@ const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
   </Space>
 );
 
-const fakeData = [
-  {
-    id: 'Title 1',
-    title: 'Room A',
-    subtitle: 'Small',
-    price: 100,
-    loading: true,
-    img: "https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-  },
-  {
-    id: 'Title 2',
-    title: 'Room B',
-    subtitle: 'Small',
-    price: 100,
-    loading: false,
-    img: "https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-  },
-  {
-    id: 'Title 3',
-    title: 'Room C',
-    subtitle: 'Small',
-    price: 100,
-    loading: false,
-    img: "https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-  },
-  {
-    id: 'Title 4',
-    title: 'Room D',
-    subtitle: 'Small',
-    price: 100,
-    loading: false,
-    img: "https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-  },
-];
 const RoomList = () => {
   const [data, setData] = useState<RoomCard[]>([]);
 
@@ -65,52 +34,48 @@ const RoomList = () => {
       },
       method: "GET"
     }).then((res) => res.json()).then((res) => {
+      console.log(res)
+      setData(res)
     });
   }
 
   useEffect(() => {
-    setData(fakeData)
     getRooms()
   }, []);
 
   const renderRoomItem = (item: any) => {
     console.log("Render room")
     return <List.Item
+      className='mt-5'
       key={item.id}
-      actions={[
-        <Button href="/book-process" type="primary">
-          Book
-        </Button>
-      ]}
-      extra={
-        <img
-          width={272}
-          alt="logo"
-          src={item.img}
-        />
-      }
     >
-      <List.Item.Meta
-        title={<a href={item.href}>{item.title}</a>}
-        description={item.subtitle}
-      />
-      {item.price}
+      <Card style={{ width: "400px" }} cover={<CarouselImage images={[bedroom, livingroom]} />} title={<a href={item.href} className="capitalize">{item.type}</a>}>
+        <Space direction="vertical" align='center'>
+          <p>
+            {item.description}
+          </p>
+          <Statistic title="Price" value={item.price} prefix='$' />
+          <Button href="/book-process" type="primary">
+            Book
+          </Button>
+        </Space>
+      </Card>
     </List.Item>
   }
 
   return (
-    <List
-      itemLayout="vertical"
-      size="large"
-      pagination={{
-        onChange: (page) => {
-          console.log(page);
-        },
-        pageSize: 2,
-      }}
-      dataSource={data}
-      renderItem={(item) => renderRoomItem(item)}
-    />
+      <List
+        grid={{ column: 4 }}
+        size="small"
+        pagination={{
+          onChange: (page) => {
+            console.log(page);
+          },
+          pageSize: 4,
+        }}
+        dataSource={data}
+        renderItem={(item) => renderRoomItem(item)}
+      />
   )
 }
 

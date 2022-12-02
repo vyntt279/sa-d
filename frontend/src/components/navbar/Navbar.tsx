@@ -37,7 +37,7 @@ const Navbar = () => {
   return (
     <div className="navbar">
       <div className="navContainer">
-        <span className="logo">lamabooking</span>
+        <a className="logo no-underline text-white" href="/">lamabooking</a>
         <div className="navItems">
           <Space>
             <div id="authentication">
