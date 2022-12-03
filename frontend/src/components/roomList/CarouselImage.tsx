@@ -2,7 +2,7 @@ import React from 'react';
 import { Carousel } from 'antd';
 
 type CarouselProps = {
-  images: string[]
+  images?: string[]
 }
 
 const styleCarousel = {
@@ -17,7 +17,7 @@ const CarouselImage = ({ images }: CarouselProps) => {
   return (
     <div style={styleCarousel}>
       <Carousel autoplay variableWidth>
-        {images.map(
+        {images?.map(
           (image: string, index: number) => {
             return (
               <div>
