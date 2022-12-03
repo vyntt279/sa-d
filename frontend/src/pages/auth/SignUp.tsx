@@ -1,30 +1,37 @@
-import { Button, Form, Input, Space } from 'antd';
+import { useNavigate } from "react-router-dom";
+import { Button, Form, Input } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons'
 import bg from '../../assets/bg.jpg'
 import { url } from 'stores/constant'
 const SignUp = () => {
+  var navigate = useNavigate();
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
       +84
     </Form.Item>
   );
-  const onFinish = (values: any) => {
+  const onFinish = async (values: any) => {
     console.log('Success:', values);
-    fetch(url + "/users/register", {
+    await fetch(url + "/users/register", {
+      mode: "cors",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
       method: "POST",
       body: JSON.stringify({
-        email: values.username,
+        email: values.email,
         password: values.password,
-        phone: values.phone,
-        fullName: values.fullName
+        fullName: values.fullName,
+        phone: '0' + values.phone
       }),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
     })
       .then((response) => response.json())
-      .then((data) => {
-        console.log('Data', data)
+      .then((response) => {
+        localStorage.setItem('authorization', response.token)
+        localStorage.setItem('role', '1')
+        localStorage.setItem('username', values.email)
+        navigate("/")
       })
       .catch((err) => {
         console.log(err.message);

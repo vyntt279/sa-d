@@ -8,7 +8,6 @@ const LogIn = () => {
   var navigate = useNavigate();
   const onFinish = async (values: any) => {
     console.log('Success:', values);
-    // TO DO: Call API message and receive value
     await fetch(url + "/users/login", {
       mode: "cors",
       headers: {
