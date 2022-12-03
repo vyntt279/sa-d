@@ -1,6 +1,5 @@
 import Featured from "components/featured/Featured";
 import RoomList from "../../../components/roomList/RoomList";
-// import PropertyList from "components/propertyList/PropertyList";
 import "./home.css";
 
 const Home = () => {

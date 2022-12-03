@@ -11,8 +11,6 @@ const Navbar = () => {
   useEffect(() => {
     const auth = document.getElementById('authentication')
     const user = document.getElementById('user-info')
-    console.log(role, username)
-    console.log(auth, user)
     if (auth != null && user != null)  {
       if (role != null ) {
         auth.classList.add('invisible')
