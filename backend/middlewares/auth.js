@@ -44,4 +44,26 @@ const checkAdmin = (req, res, next) => {
     });
 }
 
-module.exports = { checkUser, checkAdmin };
+const checkReceptionist = (req, res, next) => {
+    const { authorization } = req.headers;
+    if (!authorization) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const token = authorization.replace('Bearer ', '');
+    jwt.verify(token, process.env.JWT_SECRET, (error, payload) => {
+        if (error) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+
+        if (payload.role === 'receptionist') {
+            req.user = payload;
+            next();
+        }
+        else {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+    });
+}
+
+module.exports = { checkUser, checkAdmin, checkReceptionist };
