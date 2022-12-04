@@ -15,13 +15,6 @@ export interface RoomCard {
   type: string
 }
 
-const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
-  <Space>
-    {React.createElement(icon)}
-    {text}
-  </Space>
-);
-
 const RoomList = () => {
   const [data, setData] = useState<RoomCard[]>([]);
 
@@ -34,7 +27,6 @@ const RoomList = () => {
       },
       method: "GET"
     }).then((res) => res.json()).then((res) => {
-      console.log(res)
       setData(res)
     });
   }
@@ -55,27 +47,27 @@ const RoomList = () => {
             {item.description}
           </p>
           <Statistic title="Price" value={item.price} prefix='$' />
-          <Button href="/book-process" type="primary">
+          <Button href={`/book-process?id=${item.id}`} type="primary">
             Book
           </Button>
         </Space>
       </Card>
-    </List.Item>
+    </List.Item >
   }
 
   return (
-      <List
-        grid={{ column: 4 }}
-        size="small"
-        pagination={{
-          onChange: (page) => {
-            console.log(page);
-          },
-          pageSize: 4,
-        }}
-        dataSource={data}
-        renderItem={(item) => renderRoomItem(item)}
-      />
+    <List
+      grid={{ column: 4, md: 2 }}
+      size="small"
+      pagination={{
+        onChange: (page) => {
+          console.log(page);
+        },
+        pageSize: 4,
+      }}
+      dataSource={data}
+      renderItem={(item) => renderRoomItem(item)}
+    />
   )
 }
 

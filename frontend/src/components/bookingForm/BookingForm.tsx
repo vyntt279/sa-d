@@ -1,7 +1,9 @@
-import { DatePicker, Form, Select, Input, Checkbox } from 'antd';
+import { DatePicker, Form, Input, Checkbox, notification, Button } from 'antd';
+import { useEffect, useState } from 'react';
+import RoomDetail, { RoomDetailInfo } from './RoomDetail';
+import { url } from 'stores/constant'
 
 const { RangePicker } = DatePicker;
-const { Option } = Select;
 const rangeConfig = {
   rules: [{ type: 'array' as const, required: true, message: 'Please select time!' }],
 };
@@ -19,31 +21,62 @@ const tailFormItemLayout = {
   },
 };
 
+type BookingFormProps = {
+  id: string | undefined
+  setFinish: any
+}
 
-const BookingForm = () => {
+const BookingForm = ({ id, setFinish }: BookingFormProps) => {
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
       +84
     </Form.Item>
   );
+
+  const [roomInfo, setRoomInfo] = useState<RoomDetailInfo>()
+
+  const getRoomInfo = async (id: string) => {
+    console.log('Room ID:', id);
+    await fetch(url + "/users/login", {
+      mode: "cors",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: "POST",
+      body: JSON.stringify({
+        // email: values.email,
+        // password: values.password
+      }),
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        setRoomInfo(response)
+      })
+      .catch((reason) => {
+        console.log(reason)
+        notification.info({
+          message: `Cannot get the room info, please try again`,
+          placement: 'top',
+        });
+      })
+
+  };
+
+  useEffect(() => {
+    if (id != undefined) {
+      getRoomInfo(id)
+    }
+  }, [])
+
+  const handleSubmit = () => {
+    console.log('Submit')
+    setFinish(true)
+  }
+
   return (
-    <Form name="booking_form">
-      <Form.Item
-        name="email"
-        label="E-mail"
-        rules={[
-          {
-            type: 'email',
-            message: 'The input is not valid E-mail!',
-          },
-          {
-            required: true,
-            message: 'Please input your E-mail!',
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
+    <Form name="booking_form" onFinish={handleSubmit}>
+      <RoomDetail {...roomInfo} />
       <Form.Item
         name="phone"
         label="Phone Number"
@@ -68,6 +101,10 @@ const BookingForm = () => {
         <Checkbox>
           I have read the <a href="">agreement</a>
         </Checkbox>
+      </Form.Item>
+      <Form.Item>
+
+        <Button type='primary' htmlType='submit'>Next</Button>
       </Form.Item>
     </Form>
   )

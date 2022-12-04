@@ -1,33 +1,26 @@
-import React from 'react';
+import { useState } from 'react'
 import { Tabs } from 'antd';
-import { RoomCard } from 'components/roomList/RoomList';
+import { useParams } from 'react-router';
 import BookingForm from 'components/bookingForm/BookingForm';
-import type { TabsProps } from 'antd';
-
-type BookingProps = {
-  roomInfo: RoomCard
-}
-
-
-const tabData = [
-  {
-    label: 'Register Information',
-    key: '1',
-    children: <BookingForm />,
-  },
-  {
-    label: 'Review',
-    key: '2',
-    children: <BookingForm />,
-  },
-  {
-    label: 'Payment',
-    key: '3',
-    children: <BookingForm />,
-  }
-]
+import Payment from 'components/payment/Payment';
 
 const Booking = () => {
+  const { id } = useParams();
+  const [form1, setForm1] = useState(false)
+  var tabData = [
+    {
+      label: 'Register Information',
+      key: '1',
+      children: <BookingForm id={id} setFinish={setForm1} />,
+    },
+    {
+      label: 'Payment',
+      key: '2',
+      children: <Payment />,
+      forceRender: form1,
+      disabled: !form1
+    }
+  ]
   return (
     <Tabs
       defaultActiveKey="1"
