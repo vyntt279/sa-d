@@ -274,6 +274,44 @@
                 }
             }
         },
+        "/bookings/getAllBooking": {
+            "get": {
+                "tags": [
+                    "bookings"
+                ],
+                "summary": "View all bookings",
+                "operationId": "viewAllBooking",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "id": "string",
+                                "roomNum": "string", 
+                                "userId": "string", 
+                                "fromTime": "string",
+                                "toTime": "string", 
+                                "status": "string",
+                                "paymentMethod": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
         "/rooms/create": {
             "post": {
                 "tags": [
