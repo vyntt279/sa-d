@@ -1,7 +1,8 @@
-import { DatePicker, Form, Input, Checkbox, notification, Button } from 'antd';
+import { DatePicker, Form, Input, Checkbox, InputNumber, notification, Button, Card } from 'antd';
 import { useEffect, useState } from 'react';
 import RoomDetail, { RoomDetailInfo } from './RoomDetail';
 import { url } from 'stores/constant'
+import moment from 'moment'
 
 const { RangePicker } = DatePicker;
 const rangeConfig = {
@@ -22,11 +23,13 @@ const tailFormItemLayout = {
 };
 
 type BookingFormProps = {
-  id: string | undefined
-  setFinish: any
+  roomNum: string | undefined,
+  activateTab: number,
+  setActivateKey: any,
+  setFinishTab1: any
 }
 
-const BookingForm = ({ id, setFinish }: BookingFormProps) => {
+const BookingForm = ({ roomNum, activateTab, setActivateKey, setFinishTab1 }: BookingFormProps) => {
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
       +84
@@ -35,23 +38,21 @@ const BookingForm = ({ id, setFinish }: BookingFormProps) => {
 
   const [roomInfo, setRoomInfo] = useState<RoomDetailInfo>()
 
-  const getRoomInfo = async (id: string) => {
-    console.log('Room ID:', id);
-    await fetch(url + "/users/login", {
+  const getRoomInfo = async (roomNum: string) => {
+    console.log('Room ID:', roomNum);
+    await fetch(url + `/rooms/${roomNum}`, {
       mode: "cors",
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
       },
-      method: "POST",
-      body: JSON.stringify({
-        // email: values.email,
-        // password: values.password
-      }),
+      method: "GET",
     })
       .then((response) => response.json())
       .then((response) => {
         setRoomInfo(response)
+        console.log("Room info: ", response)
       })
       .catch((reason) => {
         console.log(reason)
@@ -64,49 +65,66 @@ const BookingForm = ({ id, setFinish }: BookingFormProps) => {
   };
 
   useEffect(() => {
-    if (id != undefined) {
-      getRoomInfo(id)
+    if (roomNum != undefined) {
+      getRoomInfo(roomNum)
     }
   }, [])
 
   const handleSubmit = () => {
     console.log('Submit')
-    setFinish(true)
+    setActivateKey(activateTab + 1)
+    setFinishTab1(true)
   }
 
   return (
-    <Form name="booking_form" onFinish={handleSubmit}>
-      <RoomDetail {...roomInfo} />
-      <Form.Item
-        name="phone"
-        label="Phone Number"
-        rules={[{ required: true, message: 'Please input your phone number!' }]}
-      >
-        <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
-      </Form.Item>
-      <Form.Item name="range-picker" label="Date" {...rangeConfig}>
-        <RangePicker />
-      </Form.Item>
-      <Form.Item
-        name="agreement"
-        valuePropName="checked"
-        rules={[
-          {
-            validator: (_, value) =>
-              value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
-          },
-        ]}
-        {...tailFormItemLayout}
-      >
-        <Checkbox>
-          I have read the <a href="">agreement</a>
-        </Checkbox>
-      </Form.Item>
-      <Form.Item>
+    <div className="flex justify-center items-stretch">
+      <Card style={{ width: "50%" }}>
+        <RoomDetail {...roomInfo} />
+      </Card >
+      <Form className='self-center ml-8' name="booking_form" onFinish={handleSubmit}>
+        <Card className='p-10'>
+          <Form.Item
+            name="phone"
+            label="Phone Number"
+            rules={[{ required: true, message: 'Please input your phone number!' }]}
+          >
+            <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
+          </Form.Item>
+          <Form.Item name="range-picker" label="Date" {...rangeConfig}>
+            <RangePicker disabledDate={(currentDate) => currentDate.isBefore(moment().startOf('date').toDate())}/>
+          </Form.Item>
+          <Form.Item label="Adult">
+            <Form.Item name="adult" noStyle>
+              <InputNumber min={1} max={2} />
+            </Form.Item>
+          </Form.Item>
+          <Form.Item label="Children">
+            <Form.Item name="children" noStyle>
+              <InputNumber min={0} max={4} />
+            </Form.Item>
+          </Form.Item>
+          <Form.Item
+            name="agreement"
+            valuePropName="checked"
+            rules={[
+              {
+                validator: (_, value) =>
+                  value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
+              },
+            ]}
+            {...tailFormItemLayout}
+          >
+            <Checkbox>
+              I have read the <a href="">agreement</a>
+            </Checkbox>
+          </Form.Item>
+          <Form.Item>
 
-        <Button type='primary' htmlType='submit'>Next</Button>
-      </Form.Item>
-    </Form>
+            <Button type='primary' htmlType='submit'>Next</Button>
+          </Form.Item>
+        </Card>
+      </Form>
+    </div>
   )
 }
 

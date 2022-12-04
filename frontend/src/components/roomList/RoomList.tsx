@@ -2,8 +2,7 @@ import { Card, List, Statistic, Space, Button } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { url } from 'stores/constant'
 import CarouselImage from './CarouselImage';
-import bedroom from "assets/bedroom.jpg"
-import livingroom from "assets/livingroom.jpg"
+import { images } from 'stores/constant';
 
 export interface RoomCard {
   bookingId: string,
@@ -41,13 +40,13 @@ const RoomList = () => {
       className='mt-5'
       key={item.id}
     >
-      <Card style={{ width: "400px" }} cover={<CarouselImage images={[bedroom, livingroom]} />} title={<a href={item.href} className="capitalize">{item.type}</a>}>
+      <Card style={{ width: "400px" }} cover={<CarouselImage images={images} />} title={<a href={item.href} className="capitalize">{item.type}</a>}>
         <Space direction="vertical" align='center'>
           <p>
             {item.description}
           </p>
           <Statistic title="Price" value={item.price} prefix='$' />
-          <Button href={`/book-process?id=${item.id}`} type="primary">
+          <Button href={`/book-process/${item.roomNum}`} type="primary">
             Book
           </Button>
         </Space>

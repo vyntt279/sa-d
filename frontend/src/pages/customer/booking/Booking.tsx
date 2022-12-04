@@ -3,29 +3,44 @@ import { Tabs } from 'antd';
 import { useParams } from 'react-router';
 import BookingForm from 'components/bookingForm/BookingForm';
 import Payment from 'components/payment/Payment';
+import PreviewBooking from './Preview';
 
 const Booking = () => {
-  const { id } = useParams();
-  const [form1, setForm1] = useState(false)
+  const { roomNum } = useParams();
+  const [activateTab, setActivateTab] = useState(1)
+  const [finishTab1, setFinishTab1] = useState(false)
+  const [finishTab2, setFinishTab2] = useState(false)
+
+  const handleTabClick = (key: string) => {
+    setActivateTab(Number(key))
+  }
+
   var tabData = [
     {
       label: 'Register Information',
       key: '1',
-      children: <BookingForm id={id} setFinish={setForm1} />,
+      children: <BookingForm roomNum={roomNum} activateTab={activateTab} setActivateKey={setActivateTab} setFinishTab1={setFinishTab1} />,
+
+    },
+    {
+      label: 'Preview',
+      key: '2',
+      children: <PreviewBooking setActivateKey={setActivateTab} setFinishTab2={setFinishTab2}/>,
+      disabled: !finishTab1
     },
     {
       label: 'Payment',
-      key: '2',
+      key: '3',
       children: <Payment />,
-      forceRender: form1,
-      disabled: !form1
+      disabled: !finishTab2
     }
   ]
   return (
     <Tabs
-      defaultActiveKey="1"
+      activeKey={activateTab.toString()}
       centered
       items={tabData}
+      onTabClick={(activateKey: string, _) => handleTabClick(activateKey)}
     />
   )
 };

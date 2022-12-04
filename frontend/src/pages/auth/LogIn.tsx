@@ -24,8 +24,7 @@ const LogIn = () => {
       .then((response) => {
         console.log('Data', response)
         localStorage.setItem('authorization', response.token)
-        localStorage.setItem('role', '1')
-        localStorage.setItem('username', values.email)
+
         navigate("/")
       })
       .catch((reason) => {

@@ -11,6 +11,7 @@ const RequireAuth = ({ allowedRoles }: any) => {
         if (decode != null) {
             role = decode["role"]
             localStorage.setItem('email', decode["email"])
+            localStorage.setItem('role', role)
         }
     } else {
         return <Navigate to="/login" state={{ from: location }} replace />

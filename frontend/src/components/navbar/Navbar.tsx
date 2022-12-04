@@ -1,18 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, memo } from 'react';
 import { Button, Space, Popover } from 'antd'
 import { UserOutlined } from '@ant-design/icons';
 
 import "./navbar.css"
 
 const Navbar = () => {
-  const role = localStorage.getItem('role')
-  const username = localStorage.getItem('username')
+  const email = localStorage.getItem('email')
   const [open, setOpen] = useState(false);
   useEffect(() => {
     const auth = document.getElementById('authentication')
     const user = document.getElementById('user-info')
-    if (auth != null && user != null)  {
-      if (role != null ) {
+    const role = localStorage.getItem('role')
+    if (auth != null && user != null) {
+      if (role != null) {
         auth.classList.add('invisible')
         user.classList.remove('invisible')
       } else {
@@ -28,7 +28,7 @@ const Navbar = () => {
 
   const handleLogOut = () => {
     localStorage.removeItem('username')
-    localStorage.removeItem('role')
+    localStorage.removeItem('authorization')
     window.location.reload()
   }
 
@@ -47,7 +47,7 @@ const Navbar = () => {
                 content={
                   <Button onClick={handleLogOut}>Log out</Button>
                 }
-                title={username != null ? username : 'Unknown'}
+                title={email != null ? email : 'Unknown'}
                 trigger="hover"
                 open={open}
                 onOpenChange={handleOpenChange}
@@ -62,4 +62,4 @@ const Navbar = () => {
   )
 }
 
-export default Navbar
+export default memo(Navbar);
