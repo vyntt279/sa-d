@@ -10,9 +10,11 @@ app.use(cors());
 
 const userRoute = require('./routes/UserRoute');
 const bookingRoute = require('./routes/BookingRoute');
+const roomRoute = require('./routes/RoomRoute');
 
 app.use('/users', userRoute);
 app.use('/bookings', bookingRoute);
+app.use('/rooms', roomRoute);
 
 app.listen(8080, () => {
     console.log('Server started on port 8080');

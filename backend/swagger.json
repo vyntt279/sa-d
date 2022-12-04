@@ -273,6 +273,154 @@
                     }
                 }
             }
+        },
+        "/bookings/getAllBooking": {
+            "get": {
+                "tags": [
+                    "bookings"
+                ],
+                "summary": "View all bookings",
+                "operationId": "viewAllBooking",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "id": "string",
+                                "roomNum": "string", 
+                                "userId": "string", 
+                                "fromTime": "string",
+                                "toTime": "string", 
+                                "status": "string",
+                                "paymentMethod": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/rooms/create": {
+            "post": {
+                "tags": [
+                    "rooms"
+                ],
+                "summary": "Create a new room",
+                "operationId": "createRoom",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "roomNum": {
+                                        "type": "string"
+                                    },
+                                    "bookingId": {
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "type": "string"
+                                    },
+                                    "images": {
+                                        "type": "array"
+                                    },
+                                    "status": {
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "type": "string"
+                                    },
+                                    "description":{
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "description": "Room object that needs to be added to the system",
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "bookingId": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/rooms/delete": {
+            "post": {
+                "tags": [
+                    "rooms"
+                ],
+                "summary": "Delete an existing room",
+                "operationId": "deleteRoom",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "roomId": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "description": "Room object that needs to be deleted from the system",
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "bookingId": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
         }
     }
 }
