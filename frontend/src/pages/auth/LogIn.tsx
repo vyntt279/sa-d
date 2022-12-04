@@ -2,12 +2,23 @@ import { useNavigate } from "react-router-dom";
 import { Button, Form, Input, notification } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons'
 import bg from '../../assets/bg.jpg'
-import { url } from 'stores/constant'
+import { fetchData, url } from 'stores/constant'
 
 const LogIn = () => {
   var navigate = useNavigate();
+  const handleResponse = (response: any) => {
+    console.log('Data', response)
+    localStorage.setItem('authorization', response.token)
+
+    navigate("/")
+  }
+
   const onFinish = async (values: any) => {
     console.log('Success:', values);
+    // await fetchData("/users/login", {
+    //   email: values.email,
+    //   password: values.password
+    // }, "POST", `Cannot log in, please try again`, false, handleResponse)
     await fetch(url + "/users/login", {
       mode: "cors",
       headers: {
@@ -34,7 +45,7 @@ const LogIn = () => {
           placement: 'top',
         });
       })
-    
+
   };
 
   const onFinishFailed = (errorInfo: any) => {

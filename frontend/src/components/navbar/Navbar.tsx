@@ -45,7 +45,10 @@ const Navbar = () => {
             <div id="user-info">
               <Popover
                 content={
-                  <Button onClick={handleLogOut}>Log out</Button>
+                  <Space direction='vertical'>
+                    <Button href='/bookings'>History</Button>
+                    <Button type='primary' onClick={handleLogOut}>Log out</Button>
+                  </Space>
                 }
                 title={email != null ? email : 'Unknown'}
                 trigger="hover"

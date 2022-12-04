@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import RoomDetail, { RoomDetailInfo } from './RoomDetail';
 import { url } from 'stores/constant'
 import moment from 'moment'
+import type { RangePickerProps } from 'antd/es/date-picker';
 
 const { RangePicker } = DatePicker;
 const rangeConfig = {
@@ -26,10 +27,12 @@ type BookingFormProps = {
   roomNum: string | undefined,
   activateTab: number,
   setActivateKey: any,
-  setFinishTab1: any
+  setFinishTab1: any,
+  setToTime: any, 
+  setFromTime: any
 }
 
-const BookingForm = ({ roomNum, activateTab, setActivateKey, setFinishTab1 }: BookingFormProps) => {
+const BookingForm = ({ roomNum, activateTab, setActivateKey, setFinishTab1, setFromTime, setToTime }: BookingFormProps) => {
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
       +84
@@ -37,6 +40,8 @@ const BookingForm = ({ roomNum, activateTab, setActivateKey, setFinishTab1 }: Bo
   );
 
   const [roomInfo, setRoomInfo] = useState<RoomDetailInfo>()
+  const [currentFromTime, setCurrentFromTime] = useState("")
+  const [currentToTime, setCurrentToTime] = useState("")
 
   const getRoomInfo = async (roomNum: string) => {
     console.log('Room ID:', roomNum);
@@ -70,11 +75,27 @@ const BookingForm = ({ roomNum, activateTab, setActivateKey, setFinishTab1 }: Bo
     }
   }, [])
 
-  const handleSubmit = () => {
+  const handleSubmit = (value: any) => {
     console.log('Submit')
     setActivateKey(activateTab + 1)
     setFinishTab1(true)
+    setFromTime(currentFromTime)
+    setToTime(currentToTime)
   }
+
+  const onChange: RangePickerProps['onChange'] = (dates, dateStrings) => {
+    if (dates) {
+      const start = dates[0], end = dates[1]
+      console.log('From: ', start, ', to: ', end);
+      if (start != undefined && end != undefined) {
+        setCurrentFromTime(start.toString())
+        setCurrentToTime(end.toString())
+      }
+    } else {
+      console.log('Clear');
+    }
+  };
+
 
   return (
     <div className="flex justify-center items-stretch">
@@ -91,7 +112,7 @@ const BookingForm = ({ roomNum, activateTab, setActivateKey, setFinishTab1 }: Bo
             <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
           </Form.Item>
           <Form.Item name="range-picker" label="Date" {...rangeConfig}>
-            <RangePicker disabledDate={(currentDate) => currentDate.isBefore(moment().startOf('date').toDate())}/>
+            <RangePicker onChange={onChange} disabledDate={(currentDate) => currentDate.isBefore(moment().startOf('date').toDate())}/>
           </Form.Item>
           <Form.Item label="Adult">
             <Form.Item name="adult" noStyle>
