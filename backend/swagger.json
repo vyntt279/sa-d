@@ -274,6 +274,92 @@
                 }
             }
         },
+        "/rooms/status": {
+            "post": {
+                "tags": [
+                    "rooms"
+                ],
+                "summary": "Update room status",
+                "operationId": "updateRoomStatus",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "roomNum": {
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "description": "Room object that needs to be updated",
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "roomNum": "string",
+                                "status": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/rooms/{roomNum}": {
+            "get": {
+                "tags": [
+                    "rooms"
+                ],
+                "summary": "View a room",
+                "operationId": "viewRoom",
+                "parameters": [
+                    {
+                        "name": "roomNum",
+                        "in": "path",
+                        "description": "Room number to return",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
         "/bookings/getAllBooking": {
             "get": {
                 "tags": [
