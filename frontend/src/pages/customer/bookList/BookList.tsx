@@ -1,27 +1,41 @@
 import React, { useEffect, useState } from 'react';
-import { Avatar, List, message } from 'antd';
+import { Button, List, Modal } from 'antd';
 import VirtualList from 'rc-virtual-list';
 
 import { fetchData } from 'stores/constant'
+import BookingDetail from './BookingDetail';
 
-interface UserItem {
-  checkIn: string;
-  checkOut: string;
-  type: string;
-  bookingId: string;
+export interface BookingListItem {
+  fromTime: string;
+  toTime: string;
+  roomNum: string;
+  id: string;
+  status: string,
+  paymentMethod: string,
 }
 
 const ContainerHeight = 400;
 
+const fakeData = [{
+  fromTime: "10/12/2022",
+  toTime: "10/12/2022",
+  roomNum: "199",
+  id: "abc",
+  status: "completed",
+  paymentMethod: "card",
+}]
+
 const BookList: React.FC = () => {
-  const [data, setData] = useState<UserItem[]>([]);
+  const [data, setData] = useState<BookingListItem[]>([]);
+  const [open, setOpen] = useState(false);
 
   const appendData = (response: any) => {
     setData(response)
   };
 
   useEffect(() => {
-    fetchData("/bookings/getBooking", {}, "GET", "Cannot get bookings", true, appendData)
+    // fetchData("/bookings/getBooking", {}, "GET", "Cannot get bookings", true, appendData)
+    setData(fakeData)
   }, []);
 
   const onScroll = (e: React.UIEvent<HTMLElement, UIEvent>) => {
@@ -46,13 +60,25 @@ const BookList: React.FC = () => {
         itemKey="email"
         onScroll={onScroll}
       >
-        {(item: UserItem) => (
-          <List.Item key={item.bookingId}>
+        {(item: BookingListItem) => (
+          <List.Item key={item.id}>
             <List.Item.Meta
-              title={<a href="https://ant.design">{item.type}</a>}
-              description={renderDescription(item.checkIn, item.checkOut)}
+              title={<a href="https://ant.design">{item.id}</a>}
+              description={renderDescription(item.fromTime, item.toTime)}
             />
-            <div>Content</div>
+            <Button type="primary" onClick={() => setOpen(true)}>
+              Detail
+            </Button>
+            <Modal
+              title="Booking Information"
+              centered
+              open={open}
+              onOk={() => setOpen(false)}
+              onCancel={() => setOpen(false)}
+              width={1000}
+            >
+              <BookingDetail bookingInfo={item} />
+            </Modal>
           </List.Item>
         )}
       </VirtualList>
