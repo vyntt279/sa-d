@@ -324,6 +324,42 @@
                 }
             }
         },
+        "/rooms/{roomNum}": {
+            "get": {
+                "tags": [
+                    "rooms"
+                ],
+                "summary": "View a room",
+                "operationId": "viewRoom",
+                "parameters": [
+                    {
+                        "name": "roomNum",
+                        "in": "path",
+                        "description": "Room number to return",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
         "/bookings/getAllBooking": {
             "get": {
                 "tags": [

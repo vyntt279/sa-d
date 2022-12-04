@@ -97,4 +97,30 @@ const deleteRoom = async (req, res) => {
     }
 }
 
-module.exports = { createRoom, deleteRoom, postRoomStatus }
+const getRoom = async (req, res) => {
+    const { roomNum } = req.params;
+
+    try {
+        if (!roomNum) {
+            return res.status(400).json({ error: 'Must have 1 attribute: roomNum' });
+        }
+
+        const doc = await firestore.collection('rooms').where('roomNum', '==', roomNum).get();
+        if (doc.empty) {
+            return res.status(400).json({ error: 'Room not found' });
+        }
+
+        const id = doc.docs[0].id;
+        const data = doc.docs[0].data();
+        return res.status(200).json({
+            id: id,
+            ...data
+        });
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).json({ error });
+    }
+}
+
+module.exports = { createRoom, deleteRoom, postRoomStatus, getRoom }
