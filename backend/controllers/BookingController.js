@@ -6,6 +6,12 @@ const getRoom = async (req, res) => {
     res.send(list);
 }
 
+const getAllBooking = async (req, res) => {
+    const snapshot = await firestore.collection('bookings').get();
+    const list = snapshot.docs.map((doc) => ({id: doc.id, ...doc.data()}));
+    res.send(list);
+}
+
 const getBooking = async (req, res) => {
     const { uid } = req.user;
 
@@ -79,4 +85,4 @@ const deleteBooking = async (req, res) => {
     }
 }
 
-module.exports = { getRoom, getBooking, createBooking, deleteBooking };
+module.exports = { getRoom, getBooking, createBooking, deleteBooking, getAllBooking };
