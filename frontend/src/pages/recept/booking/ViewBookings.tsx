@@ -2,7 +2,6 @@ import { Space, Table, Tag, notification, Button } from 'antd'
 import type { ColumnsType } from 'antd/es/table';
 
 import { url } from 'stores/constant'
-import "./ViewBooking.css";
 import { useEffect, useState } from 'react';
 import { BookingListItem } from 'pages/customer/bookList/BookList';
 const columns: ColumnsType<BookingListItem> = [
@@ -18,34 +17,30 @@ const columns: ColumnsType<BookingListItem> = [
   },
   {
     title: 'Status',
-    dataIndex: 'status',
-    key: 'status',
-  },
-  {
-    title: 'Status',
     key: 'status',
     dataIndex: 'status',
     render: (_, { status }) => {
-        {
+      {
         var color = status ? 'geekblue' : 'green';
         if (status === 'loser') {
-            color = 'volcano';
-          }
-          return (
-            <Tag color={color} key={status}>
-              {status.toUpperCase()}
-            </Tag>
-          );
+          color = 'volcano';
         }
-  }},
+        return (
+          <Tag color={color} key={status}>
+            {status.toUpperCase()}
+          </Tag>
+        );
+      }
+    }
+  },
   {
     title: 'Action',
     key: 'action',
     render: (_, record) => (
-      <div className="">
-        <Button type='primary'onClick={handleCheckIn}>Check In</Button>
+      <Space className="">
+        <Button type='primary' onClick={handleCheckIn}>Check In</Button>
         <Button onClick={handleCheckOut}>Check Out</Button>
-      </div>
+      </Space>
     ),
   },
 ]
@@ -55,9 +50,19 @@ const handleCheckIn = () => {
 const handleCheckOut = () => {
 
 }
+
+const fakeData = [{
+  fromTime: "10/12/2022",
+  toTime: "10/12/2022",
+  roomNum: "199",
+  id: "abc",
+  status: "completed",
+  paymentMethod: "card",
+}]
+
 const ViewBooking = () => {
   const [data, setData] = useState<BookingListItem[]>([])
-  
+
   const getAllBookings = async () => {
     await fetch(url + "/bookings/getAllBooking", {
       mode: "cors",
@@ -79,15 +84,19 @@ const ViewBooking = () => {
           placement: 'top',
         });
       })
-    
+
   };
 
   useEffect(() => {
-    getAllBookings()
+    // getAllBookings()
+    setData(fakeData)
   }, [])
 
   return (
-    <Table columns={columns} dataSource={data} />
+    <div className="">
+      <h1>Booking Screen</h1>
+      <Table columns={columns} dataSource={data} />
+    </div>
   );
 };
 

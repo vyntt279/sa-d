@@ -10,6 +10,7 @@ import BookList from "pages/customer/bookList/BookList";
 import RoomList from "components/roomList/RoomList";
 import MyLayout from "layouts/MyLayout";
 import Booking from "pages/customer/booking/Booking";
+import ViewBooking from "pages/recept/booking/ViewBookings";
 
 const ROLES = {
   'UNSPECIFIED': 0,
@@ -23,7 +24,9 @@ const App = () => {
     <Routes>
       <Route path="login" element={<LogIn />} />
       <Route path="signup" element={<SignUp />} />
+
       <Route path="/" element={<MyLayout />}>
+        <Route path="/test" element={<ViewBooking />} />
         <Route element={<RequireAuth allowedRoles={[ROLES.CUSTOMER]} />}>
           <Route path="/" element={<Home />} />
           <Route path="bookings" element={<BookList />} />
