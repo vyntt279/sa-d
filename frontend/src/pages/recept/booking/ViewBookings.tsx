@@ -21,13 +21,13 @@ const columns: ColumnsType<BookingListItem> = [
     dataIndex: 'status',
     render: (_, { status }) => {
       {
-        var color = status ? 'geekblue' : 'green';
+        var color = status = 'awaiting' ? 'green' : 'geekblue';
         if (status === 'loser') {
           color = 'volcano';
         }
         return (
           <Tag color={color} key={status}>
-            {status.toUpperCase()}
+            {status != undefined? status.toUpperCase(): "UNDEFINED"}
           </Tag>
         );
       }
@@ -51,15 +51,6 @@ const handleCheckOut = () => {
 
 }
 
-const fakeData = [{
-  fromTime: "10/12/2022",
-  toTime: "10/12/2022",
-  roomNum: "199",
-  id: "abc",
-  status: "completed",
-  paymentMethod: "card",
-}]
-
 const ViewBooking = () => {
   const [data, setData] = useState<BookingListItem[]>([])
 
@@ -68,7 +59,8 @@ const ViewBooking = () => {
       mode: "cors",
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('authorization')
       },
       method: "GET",
     })
@@ -84,12 +76,11 @@ const ViewBooking = () => {
           placement: 'top',
         });
       })
-
   };
 
   useEffect(() => {
-    // getAllBookings()
-    setData(fakeData)
+    getAllBookings()
+    console.log('Check again', data)
   }, [])
 
   return (
