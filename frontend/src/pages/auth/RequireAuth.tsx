@@ -1,9 +1,21 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
+import jwt from 'jwt-decode';
 
 const RequireAuth = ({ allowedRoles }: any) => {
-    const role = Number(localStorage.getItem('role'))
+    const token = localStorage.getItem('authorization')
     const location = useLocation();
-
+    var role: any
+    if (token != null) {
+        var decode: any = jwt(token)
+        console.log("Decode token: ", decode)
+        if (decode != null) {
+            role = decode["role"]
+            localStorage.setItem('email', decode["email"])
+            localStorage.setItem('role', role)
+        }
+    } else {
+        return <Navigate to="/login" state={{ from: location }} replace />
+    }
     return (
         // TO DO: Check role
         allowedRoles?.includes(role)

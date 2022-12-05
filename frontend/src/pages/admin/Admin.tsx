@@ -6,7 +6,7 @@ import ViewBooking from './ViewBooking';
 const { Header, Content, Footer } = Layout;
 
 const MainRoom: React.FC = () => (
-  <Tabs defaultActiveKey="1">
+  <Tabs defaultActiveKey="1" centered>
     <Tabs.TabPane tab="Room Management" key="1">
       <Room></Room>
     </Tabs.TabPane>

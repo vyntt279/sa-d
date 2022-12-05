@@ -86,7 +86,6 @@ code {
 .illustration-wrapper {
   display: flex;
   align-items: flex-end;
-  max-width: 800px;
   min-height: 100%;
   background-color: #fffdf2;
 }

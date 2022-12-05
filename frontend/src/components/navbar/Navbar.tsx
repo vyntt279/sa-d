@@ -1,22 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, memo } from 'react';
 import { Button, Space, Popover } from 'antd'
 import { UserOutlined } from '@ant-design/icons';
 
 import "./navbar.css"
 
 const Navbar = () => {
-  const role = localStorage.getItem('role')
-  const username = localStorage.getItem('username')
+  const email = localStorage.getItem('email')
   const [open, setOpen] = useState(false);
   useEffect(() => {
     const auth = document.getElementById('authentication')
     const user = document.getElementById('user-info')
-    console.log(role, username)
-    console.log(auth, user)
-    if (auth != null && user != null)  {
-      if (role != null ) {
+    const history = document.getElementById('history')
+    const role = localStorage.getItem('role')
+    if (auth != null && user != null) {
+      if (role != null) {
         auth.classList.add('invisible')
         user.classList.remove('invisible')
+        if (role !== 'user' && history != null) {
+          history.classList.add('invisible')
+        }
       } else {
         auth.classList.remove('invisible')
         user.classList.add('invisible')
@@ -30,14 +32,14 @@ const Navbar = () => {
 
   const handleLogOut = () => {
     localStorage.removeItem('username')
-    localStorage.removeItem('role')
+    localStorage.removeItem('authorization')
     window.location.reload()
   }
 
   return (
     <div className="navbar">
       <div className="navContainer">
-        <span className="logo">lamabooking</span>
+        <a className="logo no-underline text-white" href="/">lamabooking</a>
         <div className="navItems">
           <Space>
             <div id="authentication">
@@ -47,9 +49,12 @@ const Navbar = () => {
             <div id="user-info">
               <Popover
                 content={
-                  <Button onClick={handleLogOut}>Log out</Button>
+                  <Space direction='vertical'>
+                    <Button id='history' href='/bookings'>History</Button>
+                    <Button type='primary' onClick={handleLogOut}>Log out</Button>
+                  </Space>
                 }
-                title={username != null ? username : 'Unknown'}
+                title={email != null ? email : 'Unknown'}
                 trigger="hover"
                 open={open}
                 onOpenChange={handleOpenChange}
@@ -64,4 +69,4 @@ const Navbar = () => {
   )
 }
 
-export default Navbar
+export default memo(Navbar);
