@@ -7,7 +7,7 @@ export const url = "https://backend-6ch5yx6zaq-et.a.run.app"
 export const images = [bedroom, livingroom]
 
 export const fetchData =
-   (
+  (
     urlExtend: string,
     body: any,
     method: string,
@@ -26,7 +26,7 @@ export const fetchData =
       method: method,
     }
     if (method !== "GET") {
-      payload["body"] = body 
+      payload["body"] = body
     }
     if (authorization) {
       header['Authorization'] = 'Bearer ' + localStorage.getItem('authorization')
@@ -36,14 +36,16 @@ export const fetchData =
       .then((response) => response.json())
       .then((response) => {
         console.log('Data', response)
-        if (successfulMessage != undefined) {
-          notification.info({
-            message: successfulMessage,
-            placement: 'top',
-          });
-        }
-        if (successfulEvent != undefined) {
-          successfulEvent(response)
+        if (response.error == undefined) {
+          if (successfulMessage != undefined) {
+            notification.info({
+              message: successfulMessage,
+              placement: 'top',
+            });
+          }
+          if (successfulEvent != undefined) {
+            successfulEvent(response)
+          }
         }
       })
       .catch((reason) => {

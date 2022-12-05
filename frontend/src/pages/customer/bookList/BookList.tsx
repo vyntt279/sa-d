@@ -34,8 +34,7 @@ const BookList: React.FC = () => {
   };
 
   useEffect(() => {
-    // fetchData("/bookings/getBooking", {}, "GET", "Cannot get bookings", true, appendData)
-    setData(fakeData)
+    fetchData("/bookings/getBooking", {}, "GET", "Cannot get bookings", true, appendData)
   }, []);
 
   const onScroll = (e: React.UIEvent<HTMLElement, UIEvent>) => {

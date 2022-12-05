@@ -5,53 +5,48 @@ import BookingForm from 'components/bookingForm/BookingForm';
 import Payment from 'components/payment/Payment';
 import PreviewBooking from './Preview';
 import { url, fetchData } from 'stores/constant';
+import { SuccessfulBookingProps } from 'components/status/Successful';
 
 const Booking = () => {
   const { roomNum } = useParams();
   const [activateTab, setActivateTab] = useState(1)
   const [finishTab1, setFinishTab1] = useState(false)
   const [finishTab2, setFinishTab2] = useState(false)
+  const [successInfo, setSuccessInfo] = useState<SuccessfulBookingProps>({bookingId: "undefined", date: "undefined"})
   const [fromTime, setFromTime] = useState("")
   const [toTime, setToTime] = useState("")
   const [openStatus, setOpenStatus] = useState(false)
-  const [paymentMethod, setPaymentMethod] = useState("")
+  const [paymentMethod, setPaymentMethod] = useState("undefined")
   const [status, setStatus] = useState("")
 
   const handleBooking = async () => {
-    // await fetchData("/bookings/create", {
-    //   roomNum: "199",
-    //   fromTime: fromTime,
-    //   toTime: toTime,
-    //   status: "",
-    //   paymentMethod: paymentMethod
-    // }, "POST", "Cannot book this room", true, handleSuccessfulBooking, undefined, handleFailBooking)
     await fetch(url + "/bookings/create", {
       mode: "cors",
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+ localStorage.getItem('authorization')
+        'Authorization': 'Bearer ' + localStorage.getItem('authorization')
       },
       method: "POST",
       body: JSON.stringify({
-        roomNum: "199",
+        roomNum: roomNum,
         fromTime: fromTime,
         toTime: toTime,
-        status: "",
+        status: "awaiting",
         paymentMethod: paymentMethod
       }),
     })
       .then((response) => response.json())
       .then((response) => {
-        handleSuccessfulBooking(response)
+        console.log(response)
+        if (response.error != undefined) {
+          handleFailBooking(response)
+        } else {
+          handleSuccessfulBooking(response)
+        }
       })
       .catch((reason) => {
-        handleFailBooking(reason)
         console.log(reason)
-        notification.info({
-          message: `Cannot log in, please try again`,
-          placement: 'top',
-        });
       })
 
   }
@@ -59,6 +54,7 @@ const Booking = () => {
   const handleSuccessfulBooking = (response: any) => {
     setStatus("successful")
     setOpenStatus(true)
+    setSuccessInfo({ bookingId: response.id, date: fromTime })
   }
 
   const handleFailBooking = (reason: any) => {
@@ -87,7 +83,7 @@ const Booking = () => {
     {
       label: 'Payment',
       key: '3',
-      children: <Payment roomNum={roomNum} status={status} openStatus={openStatus} setPaymentMethod={setPaymentMethod} book={handleBooking} />,
+      children: <Payment successInfo={successInfo} roomNum={roomNum} status={status} openStatus={openStatus} setPaymentMethod={setPaymentMethod} book={handleBooking} />,
       disabled: !finishTab2
     }
   ]
