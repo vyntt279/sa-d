@@ -10,11 +10,15 @@ const Navbar = () => {
   useEffect(() => {
     const auth = document.getElementById('authentication')
     const user = document.getElementById('user-info')
+    const history = document.getElementById('history')
     const role = localStorage.getItem('role')
     if (auth != null && user != null) {
       if (role != null) {
         auth.classList.add('invisible')
         user.classList.remove('invisible')
+        if (role !== 'user' && history != null) {
+          history.classList.add('invisible')
+        }
       } else {
         auth.classList.remove('invisible')
         user.classList.add('invisible')
@@ -46,7 +50,7 @@ const Navbar = () => {
               <Popover
                 content={
                   <Space direction='vertical'>
-                    <Button href='/bookings'>History</Button>
+                    <Button id='history' href='/bookings'>History</Button>
                     <Button type='primary' onClick={handleLogOut}>Log out</Button>
                   </Space>
                 }

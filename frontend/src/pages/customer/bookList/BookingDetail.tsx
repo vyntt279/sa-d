@@ -38,9 +38,9 @@ const BookingDetail = (props: BookingDetailProps) => {
         <Badge status="processing" text={status} />
       </Descriptions.Item>
       <Descriptions.Item span={2} label="Payment Method">{paymentMethod}</Descriptions.Item>
-      <Descriptions.Item label="Check In time">{fromTime}</Descriptions.Item>
+      <Descriptions.Item label="Check In time">{fromTime.toString()}</Descriptions.Item>
       <Descriptions.Item label="Check out Time" span={2}>
-        {toTime}
+        {toTime.toString()}
       </Descriptions.Item>
 
       <Descriptions.Item label="Room Information">

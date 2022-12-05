@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Button, Form, Input, notification } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons'
+import jwt from 'jwt-decode';
 import bg from '../../assets/bg.jpg'
 import { fetchData, url } from 'stores/constant'
 
@@ -35,8 +36,22 @@ const LogIn = () => {
       .then((response) => {
         console.log('Data', response)
         localStorage.setItem('authorization', response.token)
-
-        navigate("/")
+        var decode: any = jwt(response.token)
+        console.log('Check', decode["role"])
+        switch (decode["role"]) {
+          case "user": {
+            navigate("/")
+            break;
+          }
+          case "admin": {
+            navigate("/admin")
+            break;
+          }
+          case "receptionist": {
+            navigate("/receptionist")
+            break;
+          }
+        }
       })
       .catch((reason) => {
         console.log(reason)

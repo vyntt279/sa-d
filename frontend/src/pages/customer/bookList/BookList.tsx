@@ -4,10 +4,11 @@ import VirtualList from 'rc-virtual-list';
 
 import { fetchData } from 'stores/constant'
 import BookingDetail from './BookingDetail';
+import moment from 'moment';
 
 export interface BookingListItem {
-  fromTime: string;
-  toTime: string;
+  fromTime: Date;
+  toTime: Date;
   roomNum: string;
   id: string;
   status: string,
@@ -46,7 +47,7 @@ const BookList: React.FC = () => {
   const renderDescription = (checkIn: string, checkOut: string) => {
     return (<>
       <p>Check In: {checkIn}</p>
-      <p>Check OutL {checkOut}</p>
+      <p>Check Out: {checkOut}</p>
     </>)
   }
 
@@ -54,16 +55,16 @@ const BookList: React.FC = () => {
     <List>
       <VirtualList
         data={data}
-        height={ContainerHeight}
-        itemHeight={47}
-        itemKey="email"
+        itemHeight={30}
+        itemKey="id"
         onScroll={onScroll}
+        className='w-full'
       >
         {(item: BookingListItem) => (
           <List.Item key={item.id}>
             <List.Item.Meta
               title={<a href="https://ant.design">{item.id}</a>}
-              description={renderDescription(item.fromTime, item.toTime)}
+              description={renderDescription(item.fromTime.toString(), item.toTime.toString())}
             />
             <Button type="primary" onClick={() => setOpen(true)}>
               Detail
