@@ -1,5 +1,8 @@
 import { DatePicker, Form, Input, Checkbox, InputNumber, notification, Button, Card } from 'antd';
 import { useEffect, useState } from 'react';
+import { ArrowRightOutlined } from '@ant-design/icons'
+
+
 import RoomDetail, { RoomDetailInfo } from './RoomDetail';
 import { url } from 'stores/constant'
 import moment from 'moment'
@@ -138,10 +141,10 @@ const BookingForm = ({ roomNum, activateTab, setActivateKey, setFinishTab1, setF
             <Checkbox>
               I have read the <a href="">agreement</a>
             </Checkbox>
-          </Form.Item>
-          <Form.Item>
+          </Form.Item >
+          <Form.Item {...tailFormItemLayout}>
 
-            <Button type='primary' htmlType='submit'>Next</Button>
+            <Button shape='circle' type='primary' htmlType='submit' icon={<ArrowRightOutlined />}></Button>
           </Form.Item>
         </Card>
       </Form>

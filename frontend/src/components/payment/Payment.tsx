@@ -4,6 +4,7 @@ import FailBooking from "components/status/FailBooking";
 import { useNavigate } from "react-router-dom";
 
 import { SuccessfulBookingProps } from 'components/status/Successful'
+import MainScreen from ".";
 
 type PaymentProps = {
   roomNum?: string,
@@ -21,7 +22,9 @@ const Payment = ({ successInfo, roomNum, book, openStatus, setPaymentMethod, sta
   }
   const navigate = useNavigate();
   return <><Form onFinish={handleSubmit}>
+
     <Form.Item>
+      <MainScreen />
       <Button type="primary" htmlType="submit">
         Pay
       </Button>
