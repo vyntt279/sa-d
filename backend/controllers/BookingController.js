@@ -85,4 +85,30 @@ const deleteBooking = async (req, res) => {
     }
 }
 
-module.exports = { getRoom, getBooking, createBooking, deleteBooking, getAllBooking };
+const updateStatus = async (req, res) => {
+    const {
+        bookingId,
+        status
+    } = req.body
+
+    try {
+        const doc = await firestore.collection('bookings').doc(bookingId).get();
+        const id = doc.id;
+
+        if (!doc.exists) {
+            return res.status(400).json({ error: "Booking ID doesn't exist" });
+        }
+
+        doc.ref.update({
+            status: status
+        });
+
+        return res.status(200).json({ id });
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).json({ error });
+    }
+}
+
+module.exports = { getRoom, getBooking, createBooking, deleteBooking, getAllBooking, updateStatus };
