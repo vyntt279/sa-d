@@ -44,22 +44,20 @@
   .ant-table Table { font-size: "10px"; }
 
   button {
-    background:linear-gradient(to bottom, #9fb7e0 5%, #476e9e 100%);
-    background-color:#9fb7e0;
-    border-radius:28px;
-    border:1px solid #4e6096;
+    background-color:#417afc;
+    border-radius:10px;
+    border:1px solid #417afc;
     display:inline-block;
     cursor:pointer;
     color:#ffffff;
     font-family:Arial;
     font-size:12px;
-    padding:10px 16px;
+    padding:8px 12px;
     margin-top: 5px;
     margin-bottom: 5px;
   }
   button:hover {
-    background:linear-gradient(to bottom, #476e9e 5%, #9fb7e0 100%);
-    background-color:#476e9e;
+    background-color:#54c577;
   }
   button:active {
     position:relative;

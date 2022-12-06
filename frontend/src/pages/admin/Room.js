@@ -168,88 +168,7 @@ const Room = () => {
 
     return (
         <div className="app-container">
-            <h2>Room details</h2>
-            <form onSubmit={handleEditFormSubmit}>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Room Number</th>
-                            <th>Type</th>
-                            <th>Price</th>
-                            <th>Description</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                            <th>Images</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table_body">
-                        {contacts.map((contact) => (
-                            <Fragment>
-                                {editContactId === contact.id ? (
-                                    <EditableRow
-                                        editFormData={editFormData}
-                                        handleEditFormChange={handleEditFormChange}
-                                        handleCancelClick={handleCancelClick}
-                                    />
-                                ) : (
-                                    <ReadOnlyRow
-                                        contact={contact}
-                                        handleEditClick={handleEditClick}
-                                        handleDeleteClick={handleDeleteClick}
-                                    />
-                                )}
-                            </Fragment>
-                        ))}
-                    </tbody>
-                </table>
-            </form>
-
-            <h2>Add a Room</h2>
-            {/* <form onSubmit={handleAddFormSubmit}>
-                <input
-                    type="text"
-                    name="type"
-                    required="required"
-                    placeholder="Enter a name..."
-                    onChange={handleAddFormChange}
-                />
-                <input
-                    type="text"
-                    name="roomNum"
-                    required="required"
-                    placeholder="Enter an addres..."
-                    onChange={handleAddFormChange}
-                />
-                <input
-                    type="text"
-                    name="size"
-                    required="required"
-                    placeholder="Enter a phone number..."
-                    onChange={handleAddFormChange}
-                />
-                <input
-                    type="text"
-                    name="price"
-                    required="required"
-                    placeholder="Enter an price..."
-                    onChange={handleAddFormChange}
-                />
-                <input
-                    type="text"
-                    name="status"
-                    required="required"
-                    placeholder="Enter an status..."
-                    onChange={handleAddFormChange}
-                />
-                <input
-                    type="text"
-                    name="description"
-                    required="required"
-                    placeholder="Enter an description..."
-                    onChange={handleAddFormChange}
-                />
-                <button type="submit">Add</button>
-            </form> */}
+            <div>
             <Button type="primary" onClick={showModal}>
                 Add a room
             </Button>
@@ -318,6 +237,42 @@ const Room = () => {
                     <button type="submit">Add</button>
                 </form>
             </Modal>
+            </div>
+            <h2>Room details</h2>
+            <form onSubmit={handleEditFormSubmit}>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Room Number</th>
+                            <th>Type</th>
+                            <th>Price</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                            <th>Images</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table_body">
+                        {contacts.map((contact) => (
+                            <Fragment>
+                                {editContactId === contact.id ? (
+                                    <EditableRow
+                                        editFormData={editFormData}
+                                        handleEditFormChange={handleEditFormChange}
+                                        handleCancelClick={handleCancelClick}
+                                    />
+                                ) : (
+                                    <ReadOnlyRow
+                                        contact={contact}
+                                        handleEditClick={handleEditClick}
+                                        handleDeleteClick={handleDeleteClick}
+                                    />
+                                )}
+                            </Fragment>
+                        ))}
+                    </tbody>
+                </table>
+            </form>
         </div>
     );
 };
