@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, Form, Input, notification } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons'
 import jwt from 'jwt-decode';
-import bg from '../../assets/bg.jpg'
+import bg from 'assets/bg.jpg'
 import { fetchData, url } from 'stores/constant'
 
 const LogIn = () => {
