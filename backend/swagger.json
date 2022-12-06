@@ -1,0 +1,512 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Hotel Management System",
+        "version": "1.0.0"
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "paths": {
+        "/users/register": {
+            "post": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Register a new user",
+                "operationId": "registerUser",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "fullName": {
+                                        "type": "string"
+                                    },
+                                    "phone": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "description": "User object that needs to be added to the system",
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "token": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/users/login": {
+            "post": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Login a user",
+                "operationId": "loginUser",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "description": "Email and password of the user",
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "token": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/bookings/create": {
+            "post": {
+                "tags": [
+                    "bookings"
+                ],
+                "summary": "Create a new booking",
+                "operationId": "createBooking",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "roomNum": {
+                                        "type": "string"
+                                    },
+                                    "fromTime": {
+                                        "type": "string"
+                                    },
+                                    "toTime": {
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "type": "string"
+                                    },
+                                    "paymentMethod": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "description": "Booking object that needs to be added to the system",
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "bookingId": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/bookings/delete": {
+            "post": {
+                "tags": [
+                    "bookings"
+                ],
+                "summary": "Delete a booking",
+                "operationId": "deleteBooking",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "bookingId": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "description": "Booking object that needs to be deleted from the system",
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "bookingId": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/bookings/getBooking": {
+            "get": {
+                "tags": [
+                    "bookings"
+                ],
+                "summary": "View a booking",
+                "operationId": "viewBooking",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "id": "string",
+                                "roomNum": "string", 
+                                "userId": "string", 
+                                "fromTime": "string",
+                                "toTime": "string", 
+                                "status": "string",
+                                "paymentMethod": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/bookings/getRoom": {
+            "get": {
+                "tags": [
+                    "rooms"
+                ],
+                "summary": "View Rooms",
+                "operationId": "viewRooms",
+                "requestBody": {
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/rooms/status": {
+            "post": {
+                "tags": [
+                    "rooms"
+                ],
+                "summary": "Update room status",
+                "operationId": "updateRoomStatus",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "roomNum": {
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "description": "Room object that needs to be updated",
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "roomNum": "string",
+                                "status": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/rooms/{roomNum}": {
+            "get": {
+                "tags": [
+                    "rooms"
+                ],
+                "summary": "View a room",
+                "operationId": "viewRoom",
+                "parameters": [
+                    {
+                        "name": "roomNum",
+                        "in": "path",
+                        "description": "Room number to return",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/bookings/getAllBooking": {
+            "get": {
+                "tags": [
+                    "bookings"
+                ],
+                "summary": "View all bookings",
+                "operationId": "viewAllBooking",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "id": "string",
+                                "roomNum": "string", 
+                                "userId": "string", 
+                                "fromTime": "string",
+                                "toTime": "string", 
+                                "status": "string",
+                                "paymentMethod": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/rooms/create": {
+            "post": {
+                "tags": [
+                    "rooms"
+                ],
+                "summary": "Create a new room",
+                "operationId": "createRoom",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "roomNum": {
+                                        "type": "string"
+                                    },
+                                    "bookingId": {
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "type": "string"
+                                    },
+                                    "images": {
+                                        "type": "array"
+                                    },
+                                    "status": {
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "type": "string"
+                                    },
+                                    "description":{
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "description": "Room object that needs to be added to the system",
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "bookingId": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/rooms/delete": {
+            "post": {
+                "tags": [
+                    "rooms"
+                ],
+                "summary": "Delete an existing room",
+                "operationId": "deleteRoom",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "roomId": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "description": "Room object that needs to be deleted from the system",
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "bookingId": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        }
+    }
+}

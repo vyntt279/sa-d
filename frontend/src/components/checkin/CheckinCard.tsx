@@ -1,5 +1,5 @@
 import { Button, Modal } from "antd";
-import BookingForm from "components/bookingForm/BookingForm";
+import CheckinForm from "components/checkinForm/CheckinForm";
 import { useState } from 'react';
 
 import "./featured.css";
@@ -25,16 +25,16 @@ const RoomCard = (props: RoomCardProps) => {
         <h1>{title}</h1>
         <h2>{subtitle}</h2>
         <Button type="primary" onClick={() => setModal2Open(true)}>
-          Book now
+          Check in
         </Button>
         <Modal
-          title="Booking Form"
+          title="Check in Form"
           centered
           open={modal2Open}
           onOk={() => setModal2Open(false)}
           onCancel={() => setModal2Open(false)}
         >
-          <BookingForm />
+          <CheckinForm />
         </Modal>
       </div>
     </div>
@@ -42,3 +42,5 @@ const RoomCard = (props: RoomCardProps) => {
 }
 
 export default RoomCard;
+
+
