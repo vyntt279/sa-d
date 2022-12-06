@@ -3,12 +3,11 @@ import React from "react";
 const ReadOnlyRow = ({ contact, handleEditClick, handleDeleteClick }) => {
   return (
     <tr>
-      <td>{contact.roomtype}</td>
-      <td>{contact.roomNo}</td>
-      <td>{contact.size}</td>
+      <td>{contact.roomNum}</td>
+      <td>{contact.type}</td>
       <td>{contact.price}</td>
-      <td>{contact.status}</td>
       <td>{contact.description}</td>
+      <td>{contact.status}</td>
       <td>
         <button
           type="button"
@@ -20,6 +19,7 @@ const ReadOnlyRow = ({ contact, handleEditClick, handleDeleteClick }) => {
           Delete
         </button>
       </td>
+      <td><img src={contact.images}/></td>
     </tr>
   );
 };

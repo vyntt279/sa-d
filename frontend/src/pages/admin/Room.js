@@ -8,22 +8,46 @@ import { Button, Modal, Input } from 'antd';
 
 const Room = () => {
     const [contacts, setContacts] = useState(data);
+    fetch("https://backend-6ch5yx6zaq-et.a.run.app/bookings/getRoom").then((data) => {
+        return data.json();
+    }).then((objectData) => {
+        // contacts(objectData);
+        setContacts(objectData);
+        console.log(objectData[0].title);
+        let tableData = "";
+        let images = document.getElementById('images');
+        objectData.map((values) => {
+            tableData += `
+            <tr>
+                            <th>${values.roomNum}</th>
+                            <th>${values.type}</th>
+                            <th>${values.price}</th>
+                            <th>${values.description}</th>
+                            <th><img src="${values.images}"/></th>
+                            <th>${values.status}</th>
+                        </tr>`;
+        });
+        // document.getElementById("table_body").innerHTML=tableData;
+    });
+    
     const [addFormData, setAddFormData] = useState({
-        roomtype: "",
-        roomNo: "",
+        type: "",
+        roomNum: "",
         size: "",
         price: "",
-        status: "",
         description: "",
+        images: "",
+        status: "",
     });
 
     const [editFormData, setEditFormData] = useState({
-        roomtype: "",
-        roomNo: "",
+        type: "",
+        roomNum: "",
         size: "",
         price: "",
-        status: "",
         description: "",
+        images: "",
+        status: "",
     });
 
     const [editContactId, setEditContactId] = useState(null);
@@ -57,12 +81,13 @@ const Room = () => {
 
         const newContact = {
             id: nanoid(),
-            roomtype: addFormData.roomtype,
-            roomNo: addFormData.roomNo,
+            type: addFormData.type,
+            roomNum: addFormData.roomNum,
             size: addFormData.size,
-            price: addFormData.price,
+            price: addFormData.price,            
+            description: addFormData.description,            
+            description: addFormData.images,
             status: addFormData.status,
-            description: addFormData.description,
         };
 
         const newContacts = [...contacts, newContact];
@@ -74,12 +99,13 @@ const Room = () => {
 
         const editedContact = {
             id: editContactId,
-            roomtype: editFormData.roomtype,
-            roomNo: editFormData.roomNo,
+            type: editFormData.type,
+            roomNum: editFormData.roomNum,
             size: editFormData.size,
             price: editFormData.price,
+            description: editFormData.description,            
+            description: editFormData.images,
             status: editFormData.status,
-            description: editFormData.description,
         };
 
         const newContacts = [...contacts];
@@ -97,12 +123,13 @@ const Room = () => {
         setEditContactId(contact.id);
 
         const formValues = {
-            roomtype: contact.roomtype,
-            roomNo: contact.roomNo,
+            type: contact.type,
+            roomNum: contact.roomNum,
             size: contact.size,
             price: contact.price,
-            status: contact.status,
             description: contact.description,
+            images: contact.images,
+            status: contact.status,
         };
 
         setEditFormData(formValues);
@@ -146,16 +173,16 @@ const Room = () => {
                 <table>
                     <thead>
                         <tr>
-                            <th>Room Type</th>
                             <th>Room Number</th>
-                            <th>Size</th>
+                            <th>Type</th>
                             <th>Price</th>
-                            <th>Status</th>
                             <th>Description</th>
+                            <th>Status</th>
                             <th>Actions</th>
+                            <th>Images</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="table_body">
                         {contacts.map((contact) => (
                             <Fragment>
                                 {editContactId === contact.id ? (
@@ -181,14 +208,14 @@ const Room = () => {
             {/* <form onSubmit={handleAddFormSubmit}>
                 <input
                     type="text"
-                    name="roomtype"
+                    name="type"
                     required="required"
                     placeholder="Enter a name..."
                     onChange={handleAddFormChange}
                 />
                 <input
                     type="text"
-                    name="roomNo"
+                    name="roomNum"
                     required="required"
                     placeholder="Enter an addres..."
                     onChange={handleAddFormChange}
@@ -242,7 +269,7 @@ const Room = () => {
                     <strong>Room type:</strong>
                     <Input
                         type="text"
-                        name="roomtype"
+                        name="type"
                         required="required"
                         placeholder="Enter a room type..."
                         onChange={handleAddFormChange}
@@ -250,7 +277,7 @@ const Room = () => {
                     <strong>Room number:</strong>
                     <Input
                         type="text"
-                        name="roomNo"
+                        name="roomNum"
                         required="required"
                         placeholder="Enter an room number..."
                         onChange={handleAddFormChange}
