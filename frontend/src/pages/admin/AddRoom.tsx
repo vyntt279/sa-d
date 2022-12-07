@@ -11,7 +11,6 @@ import {
 import type { RcFile, UploadProps } from 'antd/es/upload';
 import type { UploadFile } from 'antd/es/upload/interface';
 
-import { RoomInfo } from './ViewRoom';
 import { url } from 'stores/constant'
 
 const { TextArea } = Input;
@@ -63,11 +62,13 @@ const AddRoom: React.FC = () => {
         price: values.price.toString(),
         description: values.description,
         bookingId: "undefined",
+        images: ["abc"]
       })
     })
       .then((response) => response.json())
       .then((response) => {
         console.log('Data', response)
+
       })
       .catch((reason) => {
         console.log(reason)
@@ -132,11 +133,16 @@ const AddRoom: React.FC = () => {
             {
               required: true,
               message: 'Please input the price!',
+            }
+          ]}>
+            <InputNumber min={50} prefix="$" />
+          </Form.Item>
+          <Form.Item name="description" label="Description" rules={[
+            {
+              required: true,
+              message: 'Please input the description!',
             },
           ]}>
-            <InputNumber prefix="$" />
-          </Form.Item>
-          <Form.Item name="description" label="Description">
             <TextArea rows={4} />
           </Form.Item>
           <Form.Item name="images" label="Upload" valuePropName="fileList" >

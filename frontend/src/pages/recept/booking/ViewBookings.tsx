@@ -126,8 +126,8 @@ const columns: ColumnsType<BookingListItem> = [
     key: 'action',
     render: (_, { id, status }) => (
       <Space className="">
-        <Button disabled={status !== 'waiting'} type='primary' onClick={() => updateBookingStatus(id, "checked in")}>Check In</Button>
-        <Button disabled={status !== 'checked in'} onClick={() => updateBookingStatus(id, "checked out")}>Check Out</Button>
+        <Button disabled={status !== 'waiting'} type='primary' onClick={() => updateBookingStatus(id, "checked-in")}>Check In</Button>
+        <Button disabled={status !== 'checked in'} onClick={() => updateBookingStatus(id, "checked-out")}>Check Out</Button>
       </Space>
     ),
   }

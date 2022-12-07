@@ -8,7 +8,7 @@ import RoomDescription from './RoomDescription';
 import AddRoom from 'pages/admin/AddRoom'
 
 export interface RoomInfo {
-    id: number;
+    id: string;
     type: string;
     roomNum: string;
     price: string;
@@ -17,37 +17,37 @@ export interface RoomInfo {
     bookingId: string;
 }
 
-const fakeData: RoomInfo[] = [
-    {
-        id: 1,
-        type: 'STANDARD (STD)',
-        roomNum: "508",
-        price: "3000000",
-        status: 'Booked',
-        description: 'aABC',
-        bookingId: "1"
-    },
-    {
-        id: 2,
-        type: 'STANDARD (STD)',
-        roomNum: "408",
-        price: "30000",
-        status: 'Check In',
-        description: 'aABC',
-        bookingId: "1"
-    },
-    {
-        id: 3,
-        type: 'STANDARD (STD)',
-        roomNum: "308",
-        price: "300000",
-        status: 'Check Out',
-        description: 'aABC',
-        bookingId: "1"
-    }
-];
+// const fakeData: RoomInfo[] = [
+//     {
+//         id: 1,
+//         type: 'STANDARD (STD)',
+//         roomNum: "508",
+//         price: "3000000",
+//         status: 'Booked',
+//         description: 'aABC',
+//         bookingId: "1"
+//     },
+//     {
+//         id: 2,
+//         type: 'STANDARD (STD)',
+//         roomNum: "408",
+//         price: "30000",
+//         status: 'Check In',
+//         description: 'aABC',
+//         bookingId: "1"
+//     },
+//     {
+//         id: 3,
+//         type: 'STANDARD (STD)',
+//         roomNum: "308",
+//         price: "300000",
+//         status: 'Check Out',
+//         description: 'aABC',
+//         bookingId: "1"
+//     }
+// ];
 
-const handleDeleteRoom = async (roomNum: string) => {
+const handleDeleteRoom = async (id: string, roomNum: string) => {
     await fetch(url + "/rooms/delete", {
         mode: "cors",
         headers: {
@@ -57,7 +57,7 @@ const handleDeleteRoom = async (roomNum: string) => {
         },
         method: "POST",
         body: JSON.stringify({
-            roomId: roomNum
+            roomId: id
         })
     })
         .then((response) => response.json())
@@ -90,7 +90,7 @@ const columns: ColumnsType<RoomInfo> = [
     {
         title: 'Room Type',
         dataIndex: 'type',
-        key: 'type', 
+        key: 'type',
         render: (_, { type }) => {
             return (
                 <div className="capitalize">{type}</div>
@@ -115,7 +115,7 @@ const columns: ColumnsType<RoomInfo> = [
             let color = status == 'available' ? 'green' : 'volcano';
             return (
                 <Tag color={color} key={status}>
-                    {status.toUpperCase()}
+                    {status ? status.toUpperCase() : "UNDEFINED"}
                 </Tag>
             );
         }
@@ -134,10 +134,10 @@ const columns: ColumnsType<RoomInfo> = [
     {
         title: 'Action',
         key: 'actions',
-        render: (_, { roomNum }) => {
+        render: (_, { id, roomNum }) => {
             return (
                 <>
-                    <Button type="primary" danger onClick={() => handleDeleteRoom(roomNum)} icon={<DeleteOutlined />} />
+                    <Button type="primary" danger onClick={() => handleDeleteRoom(id, roomNum)} icon={<DeleteOutlined />} />
                 </>
             )
         }
@@ -145,7 +145,7 @@ const columns: ColumnsType<RoomInfo> = [
 ];
 
 const ViewRoom = () => {
-    const [data, setData] = useState<RoomInfo[]>(fakeData)
+    const [data, setData] = useState<RoomInfo[]>([])
     const fetchRoomData = async () => {
         await fetch(url + "/bookings/getRoom", {
             mode: "cors",
