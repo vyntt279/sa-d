@@ -85,4 +85,49 @@ const deleteBooking = async (req, res) => {
     }
 }
 
-module.exports = { getRoom, getBooking, createBooking, deleteBooking, getAllBooking };
+const updateBooking = async (req, res) => {
+    const {
+        bookingId,
+        status,
+    } = req.body
+
+    try {
+        const doc = await firestore.collection('bookings').doc(bookingId).get();
+        const id = doc.id;
+ 
+        if (!doc.exists) {
+            return res.status(400).json({ error: "Booking ID doesn't exist" });
+        }
+
+        if (status === 'checked-in') {
+            const room = await firestore.collection('rooms').doc(doc.data().roomNum).get();
+            if (room.data().status === 'not-available') {
+                return res.status(400).json({ error: 'Room is not available' });
+            }
+            await room.ref.update({
+                status: 'not-available',
+            });
+        }
+        else if (status === 'checked-out') {
+            const room = await firestore.collection('rooms').doc(doc.data().roomNum).get();
+            await room.ref.update({
+                status: 'available',
+            });
+        }
+        else {
+            return res.status(400).json({ error: 'status must be "checked-in" or "checked-out"' });
+        }
+
+        await doc.ref.update({
+            status: status,
+        });
+
+        return res.status(200).json({ id });
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).json({ error });
+    }
+}
+
+module.exports = { getRoom, getBooking, createBooking, deleteBooking, getAllBooking, updateBooking };
