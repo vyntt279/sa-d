@@ -5,7 +5,7 @@ const Featured = () => {
   return (
     <div className="featured">
       <WelcomeCard
-        title={"Welcome to Lama"}
+        title={"Welcome  to  Lama"}
         subtitle={"Enjoy your vacation"}
       />
     </div>

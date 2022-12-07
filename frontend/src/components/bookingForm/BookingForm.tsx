@@ -76,7 +76,7 @@ const BookingForm = ({ setCustomerInfo, setTotalCost, roomInfo, activateTab, set
 
   return (
     <div className="flex justify-center items-stretch">
-      <Card style={{ width: "50%" }}>
+      <Card style={{ width: "60%" }}>
         <RoomDetail {...roomInfo} />
       </Card >
       <Form labelCol={{ span: 7 }}

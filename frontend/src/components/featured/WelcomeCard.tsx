@@ -4,7 +4,7 @@ import hotel from 'assets/hotel.jpg'
 import "./featured.css";
 import { Space } from 'antd';
 const contentStyle: React.CSSProperties = {
-  height: '250px',
+  height: '400px',
   color: '#fff',
   lineHeight: '250px',
   textAlign: 'center',
@@ -22,7 +22,7 @@ const WelcomeCard = ({ title, subtitle }: WelcomeCardProps) => {
 
   return (
     <div className="w-full">
-      <div className='text-5xl' style={contentStyle}>
+      <div className='text-7xl comforta font-black tracking-widest' style={contentStyle}>
         {title}
       </div>
     </div>

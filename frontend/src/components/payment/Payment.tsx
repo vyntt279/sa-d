@@ -28,22 +28,22 @@ const Payment = ({ successInfo, roomNum, book, openStatus, status }: PaymentProp
     book()
   }
   const navigate = useNavigate();
-  return <>
+  return <div style={{width: "650px"}}>
     {/* <MainScreen /> */}
     <Form labelCol={{ span: 7 }}
       wrapperCol={{ span: 14 }} className='self-center ml-8' name="booking_form" onFinish={handleSubmit} >
       <Card className='p-10'>
-        <Form.Item label="Card Number">
+        <Form.Item label="Card Number" required>
+          <Input minLength={16} maxLength={16}></Input>
+        </Form.Item>
+        <Form.Item label="Card Holder" required>
           <Input></Input>
         </Form.Item>
-        <Form.Item label="Card Holder">
-          <Input></Input>
+        <Form.Item label="Expired Date" required>
+          <DatePicker picker="month" aria-required={true} />
         </Form.Item>
-        <Form.Item label="Card Holder">
-          <DatePicker picker="month" bordered={false} />
-        </Form.Item>
-        <Form.Item label="CVV">
-          <Input></Input>
+        <Form.Item label="CVV" required>
+          <Input minLength={3} maxLength={3}></Input>
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit">
@@ -64,6 +64,6 @@ const Payment = ({ successInfo, roomNum, book, openStatus, status }: PaymentProp
     >
       {status === "successful" ? <SuccessfulBooking {...successInfo} /> : <FailBooking />}
     </Modal>
-  </>
+  </div>
 }
 export default Payment;
