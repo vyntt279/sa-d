@@ -140,6 +140,9 @@
                                     },
                                     "paymentMethod": {
                                         "type": "string"
+                                    },
+                                    "totalPrice": {
+                                        "type": "number"
                                     }
                                 }
                             }

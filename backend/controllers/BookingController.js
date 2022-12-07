@@ -29,13 +29,14 @@ const createBooking = async (req, res) => {
         fromTime, 
         toTime, 
         status,
-        paymentMethod 
+        paymentMethod,
+        totalPrice
     } = req.body;
 
     const { uid: userId } = req.user;
 
     try {
-        if (!roomNum || !userId || !fromTime || !toTime || !status || !paymentMethod){
+        if (!roomNum || !userId || !fromTime || !toTime || !status || !paymentMethod || !totalPrice){
             return res.status(400).json({ error: 'Bad request' });
         }
 
@@ -45,7 +46,8 @@ const createBooking = async (req, res) => {
             fromTime: new Date(fromTime),
             toTime: new Date(toTime), 
             status: status,
-            paymentMethod: paymentMethod
+            paymentMethod: paymentMethod,
+            totalPrice: totalPrice
         });
         
         const id = doc.id;
