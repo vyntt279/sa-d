@@ -113,6 +113,8 @@ const columns: ColumnsType<BookingListItem> = [
       var color = status == 'waiting' ? 'green' : 'geekblue';
       if (status === 'expired') {
         color = 'volcano';
+      } else if (status === 'checked-out') {
+        color = 'magenta'
       }
       return (
         <Tag color={color} key={status}>
@@ -127,7 +129,7 @@ const columns: ColumnsType<BookingListItem> = [
     render: (_, { id, status }) => (
       <Space className="">
         <Button disabled={status !== 'waiting'} type='primary' onClick={() => updateBookingStatus(id, "checked-in")}>Check In</Button>
-        <Button disabled={status !== 'checked in'} onClick={() => updateBookingStatus(id, "checked-out")}>Check Out</Button>
+        <Button disabled={status !== 'checked-in'} onClick={() => updateBookingStatus(id, "checked-out")}>Check Out</Button>
       </Space>
     ),
   }
@@ -155,6 +157,7 @@ const updateBookingStatus = async (bookingId: string, status: string) => {
         notification.info({
           message: `${bookingId} is ${status} successfully`
         })
+        window.location.reload()
       }
     })
     .catch((reason) => {

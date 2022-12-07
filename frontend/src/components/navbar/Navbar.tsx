@@ -50,8 +50,8 @@ const Navbar = () => {
               <Popover
                 content={
                   <Space direction='vertical'>
-                    <Button id='history' href='/bookings'>History</Button>
-                    <Button type='primary' onClick={handleLogOut}>Log out</Button>
+                    <Button className='button text-lg m-2' id='history' href='/bookings'>History</Button>
+                    <Button className='button text-lg m-2' type='primary' onClick={handleLogOut}>Log out</Button>
                   </Space>
                 }
                 title={email != null ? email : 'Unknown'}

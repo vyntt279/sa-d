@@ -49,6 +49,8 @@ const SignUp = () => {
           <img src={bg} alt="Login" />
         </div>
         <Form
+          labelCol={{ span: 7 }}
+          wrapperCol={{ span: 14 }}
           name="login-form"
           initialValues={{ remember: true }}
           onFinish={onFinish}
@@ -100,12 +102,12 @@ const SignUp = () => {
               placeholder="Full name"
             />
           </Form.Item>
-
-          <Form.Item>
-            <Button type="primary" htmlType="submit" className="login-form-button">
+            <Button form="login-form" type="primary" htmlType="submit" className="login-form-button">
               SIGN UP
             </Button>
-          </Form.Item>
+            <Button href="/login" className="login-form-button mt-5">
+              Exist account? Log In
+            </Button>
         </Form>
       </div>
     </div >

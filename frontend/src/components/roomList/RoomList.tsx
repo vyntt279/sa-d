@@ -40,14 +40,14 @@ const RoomList = () => {
       className='mt-5'
       key={item.id}
     >
-      <Card style={{ width: "400px" }} cover={<CarouselImage images={images} />} title={<a href={item.href} className="capitalize">{item.type}</a>}>
+      <Card style={{ width: "400px" }} cover={<CarouselImage images={images} />} title={<p className="capitalize text-xl tracking-wide comforta">{item.type}</p>}>
         <Space direction="vertical" align='center'>
-          <p>
+          <p className='cutive-mono text-lg'>
             {item.description}
           </p>
-          <Statistic title="Price" value={item.price} prefix='$' />
-          <Button href={`/book-process/${item.roomNum}`} type="primary">
-            Book
+          <Statistic className='cutive-mono' valueStyle={{ fontFamily: 'Cutive Mono' }} title="Price" value={item.price} prefix='$' />
+          <Button className='button text-lg m-3' href={`/book-process/${item.roomNum}`} type="primary">
+            Book now
           </Button>
         </Space>
       </Card>
@@ -56,13 +56,14 @@ const RoomList = () => {
 
   return (
     <List
-      grid={{ column: 4, md: 2 }}
+      grid={{ column: 4, gutter: 1, xs: 1, sm: 1, md: 2, lg: 2, xl: 3 }}
       size="small"
       pagination={{
         onChange: (page) => {
           console.log(page);
         },
-        pageSize: 4,
+        showLessItems: true,
+        pageSize: 8
       }}
       dataSource={data}
       renderItem={(item) => renderRoomItem(item)}

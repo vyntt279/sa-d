@@ -57,14 +57,14 @@ const handleDeleteRoom = async (id: string, roomNum: string) => {
         },
         method: "POST",
         body: JSON.stringify({
-            roomId: id
+            roomNum: roomNum
         })
     })
         .then((response) => response.json())
         .then((response) => {
             console.log('Data', response)
             if (response.error == undefined) {
-                window.location.reload()
+                window.location.reload()  
                 notification.info({
                     message: `Delete room ${roomNum} successful`,
                 }

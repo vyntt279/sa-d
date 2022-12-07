@@ -13,7 +13,7 @@ const LogIn = () => {
       navigate("/")
     }
   }, [])
-  
+
   const handleResponse = (response: any) => {
     console.log('Data', response)
     localStorage.setItem('authorization', response.token)
@@ -116,6 +116,11 @@ const LogIn = () => {
           <Form.Item>
             <Button type="primary" htmlType="submit" className="login-form-button">
               LOGIN
+            </Button>
+          </Form.Item>
+          <Form.Item>
+            <Button href="/signup" htmlType="submit" className="login-form-button">
+              Don't have account? Sign Up
             </Button>
           </Form.Item>
         </Form>

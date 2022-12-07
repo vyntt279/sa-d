@@ -1,5 +1,5 @@
 import React from 'react';
-import { Carousel } from 'antd';
+import { Carousel, Image } from 'antd';
 
 type CarouselProps = {
   images?: string[]
@@ -22,10 +22,11 @@ const CarouselImage = ({ images }: CarouselProps) => {
             return (
               <div>
                 <img
-                  width={"400px"}
+                  width={"400vw"}
                   alt="logo"
                   src={image}
                   key={index}
+                  className="rounded-lg"
                 />
               </div>
             )

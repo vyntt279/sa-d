@@ -68,7 +68,7 @@ const AddRoom: React.FC = () => {
       .then((response) => response.json())
       .then((response) => {
         console.log('Data', response)
-
+        window.location.reload()
       })
       .catch((reason) => {
         console.log(reason)
