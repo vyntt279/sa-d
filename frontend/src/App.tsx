@@ -10,7 +10,8 @@ import BookList from "pages/customer/bookList/BookList";
 import RoomList from "components/roomList/RoomList";
 import MyLayout from "layouts/MyLayout";
 import Booking from "pages/customer/booking/Booking";
-import ViewBooking from "pages/recept/booking/ViewBookings";
+import Receptionist from "pages/recept/booking/ViewBookings";
+import Admin from "pages/admin/ViewRoom"
 
 const ROLES = {
   'UNSPECIFIED': 0,
@@ -26,6 +27,7 @@ const App = () => {
       <Route path="signup" element={<SignUp />} />
 
       <Route path="/" element={<MyLayout />}>
+        <Route path="/admin" element={<Admin />} />
         <Route element={<RequireAuth allowedRoles={[ROLES.CUSTOMER]} />}>
           <Route path="/" element={<Home />} />
           <Route path="bookings" element={<BookList />} />
@@ -33,10 +35,9 @@ const App = () => {
           <Route path="book-process/:roomNum" element={<Booking />} />
         </Route>
         <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
-          <Route path="/admin" element={<ViewBooking />} />
         </Route>
         <Route element={<RequireAuth allowedRoles={[ROLES.RECEIPTIONIST]} />}>
-          <Route path="/receptionist" element={<ViewBooking />} />
+          <Route path="/receptionist" element={<Receptionist />} />
         </Route>
       </Route>
     </Routes>
