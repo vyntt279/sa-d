@@ -40,7 +40,7 @@ const PreviewBooking = ({ customerInfo, roomInfo, setFinishTab2, setActivateKey,
         className='ml-8'
       >
         <Descriptions.Item label="Email">{customerInfo.email}</Descriptions.Item>
-        <Descriptions.Item label="Phone number">{customerInfo.phoneNumber}</Descriptions.Item>
+        <Descriptions.Item label="Phone number">+84 {customerInfo.phoneNumber}</Descriptions.Item>
         <Descriptions.Item label="Num of adults">{customerInfo.adults}</Descriptions.Item>
         <Descriptions.Item label="Num of children">{customerInfo.children}</Descriptions.Item>
         <Descriptions.Item label="Check In">{fromTime}</Descriptions.Item>
