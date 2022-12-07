@@ -1,7 +1,7 @@
 const { firestore } = require('../firebase/firebase');
 
 const getRoom = async (req, res) => {
-    const snapshot = await firestore.collection('rooms').get();
+    const snapshot = await firestore.collection('rooms').where('status', '==', 'available').get();
     const list = snapshot.docs.map((doc) => ({id: doc.id, ...doc.data()}));
     res.send(list);
 }
@@ -102,17 +102,14 @@ const updateBooking = async (req, res) => {
         }
 
         if (status === 'checked-in') {
-            const room = await firestore.collection('rooms').doc(doc.data().roomNum).get();
-            if (room.data().status === 'not-available') {
-                return res.status(400).json({ error: 'Room is not available' });
-            }
-            await room.ref.update({
+            const room = await firestore.collection('rooms').where('roomNum', '==', doc.data().roomNum).get();
+            await room.docs[0].ref.update({
                 status: 'not-available',
             });
         }
         else if (status === 'checked-out') {
-            const room = await firestore.collection('rooms').doc(doc.data().roomNum).get();
-            await room.ref.update({
+            const room = await firestore.collection('rooms').where('roomNum', '==', doc.data().roomNum).get();
+            await room.docs[0].ref.update({
                 status: 'available',
             });
         }

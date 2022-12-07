@@ -39,7 +39,7 @@ const createRoom = async (req, res) => {
 
 const deleteRoom = async (req, res) => {
     const {
-        roomId
+        roomNum
     } = req.body
 
     try {
