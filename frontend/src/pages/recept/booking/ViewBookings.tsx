@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { BookingListItem } from 'pages/customer/bookList/BookList';
 import RoomStatus from './RoomStatus';
 
-const renderPayment = (status: string) => {
+export const renderPayment = (status: string) => {
   var color = status == 'paid' ? 'green' : 'geekblue';
   if (status === 'unpaid') {
     color = 'volcano';
@@ -18,38 +18,38 @@ const renderPayment = (status: string) => {
   );
 }
 
-const fakeData: BookingListItem[] = [{
-  id: "1",
-  roomNum: "199",
-  status: "expired",
-  fromTime: new Date(),
-  toTime: new Date(),
-  paymentMethod: "card"
-},
-{
-  id: "2",
-  roomNum: "199",
-  status: "waiting",
-  fromTime: new Date(),
-  toTime: new Date(),
-  paymentMethod: "card"
-},
-{
-  id: "3",
-  roomNum: "199",
-  status: "checked in",
-  fromTime: new Date(),
-  toTime: new Date(),
-  paymentMethod: "card"
-},
-{
-  id: "4",
-  roomNum: "199",
-  status: "checked out",
-  fromTime: new Date(),
-  toTime: new Date(),
-  paymentMethod: "card"
-}]
+// const fakeData: BookingListItem[] = [{
+//   id: "1",
+//   roomNum: "199",
+//   status: "expired",
+//   fromTime: ,
+//   toTime: new Date(),
+//   paymentMethod: "card"
+// },
+// {
+//   id: "2",
+//   roomNum: "199",
+//   status: "waiting",
+//   fromTime: new Date(),
+//   toTime: new Date(),
+//   paymentMethod: "card"
+// },
+// {
+//   id: "3",
+//   roomNum: "199",
+//   status: "checked in",
+//   fromTime: new Date(),
+//   toTime: new Date(),
+//   paymentMethod: "card"
+// },
+// {
+//   id: "4",
+//   roomNum: "199",
+//   status: "checked out",
+//   fromTime: new Date(),
+//   toTime: new Date(),
+//   paymentMethod: "card"
+// }]
 
 const columns: ColumnsType<BookingListItem> = [
   {
@@ -72,9 +72,10 @@ const columns: ColumnsType<BookingListItem> = [
     dataIndex: 'checkInTime',
     key: 'checkInTime',
     render: (_, { fromTime }) => {
+      const date = new Date(fromTime._seconds)
       return (<>
-        <p>Date: {fromTime.toDateString()}</p>
-        <p>Time: {fromTime.toTimeString()}</p>
+        <p>Date: {date.toDateString()}</p>
+        <p>Time: {date.toTimeString()}</p>
       </>
       )
     }
@@ -84,11 +85,11 @@ const columns: ColumnsType<BookingListItem> = [
     dataIndex: 'checkOutTime',
     key: 'checkOutTime',
     render: (_, { toTime }) => {
+      const date = new Date(toTime._seconds)
       return (<>
-        <p>Date: {toTime.toLocaleDateString()}</p>
-        <p>Time: {toTime.toLocaleTimeString()}</p>
-      </>
-      )
+        <p>Date: {date.toDateString()}</p>
+        <p>Time: {date.toTimeString()}</p>
+      </>)
     }
   },
   {
@@ -165,7 +166,7 @@ const updateBookingStatus = async (bookingId: string, status: string) => {
 }
 
 const ViewBooking = () => {
-  const [data, setData] = useState<BookingListItem[]>(fakeData)
+  const [data, setData] = useState<BookingListItem[]>([])
 
   const getAllBookings = async () => {
     await fetch(url + "/bookings/getAllBooking", {

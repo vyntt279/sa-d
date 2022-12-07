@@ -1,88 +1,149 @@
-import React, { useEffect, useState } from 'react';
-import { Button, List, Modal } from 'antd';
-import VirtualList from 'rc-virtual-list';
+import { useEffect, useState } from 'react';
+import { Space, Table, Tag, notification, Button, Statistic } from 'antd'
+import type { ColumnsType } from 'antd/es/table';
 
-import { fetchData } from 'stores/constant'
-import BookingDetail from './BookingDetail';
-import moment from 'moment';
+import { url } from 'stores/constant'
+import { renderPayment } from 'pages/recept/booking/ViewBookings';
+import RoomStatus from 'pages/customer/bookList/RoomStatus';
 
+type Time = {
+  _seconds: number,
+  _nanoseconds: number
+}
 export interface BookingListItem {
-  fromTime: Date;
-  toTime: Date;
+  fromTime: Time;
+  toTime: Time;
   roomNum: string;
   id: string;
   status: string,
   paymentMethod: string,
+  totalPrice: number
 }
 
-const ContainerHeight = 400;
+const cancleBooking = (id: string) => {
+  
+}
 
-const fakeData = [{
-  fromTime: "10/12/2022",
-  toTime: "10/12/2022",
-  roomNum: "199",
-  id: "abc",
-  status: "completed",
-  paymentMethod: "card",
-}]
+const columns: ColumnsType<BookingListItem> = [
+  {
+    title: 'ID',
+    dataIndex: 'id',
+    key: 'id',
+  },
+  {
+    title: 'Room Num',
+    dataIndex: 'roomNum',
+    key: 'roomNum',
+    render: (_, { roomNum }) => {
+      return (
+        <RoomStatus roomNum={roomNum} />
+      )
+    }
+  },
+  {
+    title: 'Check In Time',
+    dataIndex: 'checkInTime',
+    key: 'checkInTime',
+    render: (_, { fromTime }) => {
+      const date = new Date(fromTime._seconds)
+      return (<>
+        <p>Date: {date.toDateString()}</p>
+        <p>Time: {date.toTimeString()}</p>
+      </>
+      )
+    }
+  },
+  {
+    title: 'Check Out Time',
+    dataIndex: 'checkOutTime',
+    key: 'checkOutTime',
+    render: (_, { toTime }) => {
+      const date = new Date(toTime._seconds)
+      return (<>
+        <p>Date: {date.toDateString()}</p>
+        <p>Time: {date.toTimeString()}</p>
+      </>
+      )
+    }
+  },
+  {
+    title: 'Cost',
+    dataIndex: 'totalPrice',
+    key: 'totalPrice',
+    render: (_, { totalPrice }) => {
+      return (<>
+        <Statistic value={totalPrice} prefix='$' valueStyle={{ fontSize: '1em' }} />
+        {renderPayment('paid')}
+      </>
 
-const BookList: React.FC = () => {
-  const [data, setData] = useState<BookingListItem[]>([]);
-  const [open, setOpen] = useState(false);
+      )
+    }
+  },
+  {
+    title: 'Status',
+    key: 'status',
+    dataIndex: 'status',
+    render: (_, { status }) => {
+      var color = status == 'waiting' ? 'green' : 'geekblue';
+      if (status === 'expired') {
+        color = 'volcano';
+      }
+      return (
+        <Tag color={color} key={status}>
+          {status != undefined ? status.toUpperCase() : "UNDEFINED"}
+        </Tag>
+      );
+    }
+  },
+  // {
+  //   title: 'Action',
+  //   key: 'action',
+  //   render: (_, { id, status }) => (
+  //     <Space>
+  //       <Button disabled={status !== 'waiting'} type='primary' onClick={() => cancleBooking(id)}>Cancle</Button>
+  //     </Space>
+  //   ),
+  // }
+]
 
-  const appendData = (response: any) => {
-    setData(response)
+
+const BookList = () => {
+  const [data, setData] = useState<BookingListItem[]>([])
+
+  const getAllBookings = async () => {
+    await fetch(url + "/bookings/getBooking", {
+      mode: "cors",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('authorization')
+      },
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        console.log('Data', response)
+        if (response.error == undefined) {
+          setData(response)
+        }
+      })
+      .catch((reason) => {
+        console.log(reason)
+        notification.info({
+          message: `Cannot get all bookings, please try again`,
+        });
+      })
   };
 
   useEffect(() => {
-    fetchData("/bookings/getBooking", {}, "GET", "Cannot get bookings", true, appendData)
-  }, []);
-
-  const onScroll = (e: React.UIEvent<HTMLElement, UIEvent>) => {
-    // if (e.currentTarget.scrollHeight - e.currentTarget.scrollTop === ContainerHeight) {
-    //   appendData();
-    // }
-  };
-
-  const renderDescription = (checkIn: string, checkOut: string) => {
-    return (<>
-      <p>Check In: {checkIn}</p>
-      <p>Check Out: {checkOut}</p>
-    </>)
-  }
+    getAllBookings()
+  }, [])
 
   return (
-    <List>
-      <VirtualList
-        data={data}
-        itemHeight={30}
-        itemKey="id"
-        onScroll={onScroll}
-        className='w-full'
-      >
-        {(item: BookingListItem) => (
-          <List.Item key={item.id}>
-            <List.Item.Meta
-              title={<a href="https://ant.design">{item.id}</a>}
-              description={renderDescription(item.fromTime.toString(), item.toTime.toString())}
-            />
-            <Button type="primary" onClick={() => setOpen(true)}>
-              Detail
-            </Button>
-            <Modal
-              title="Booking Information"
-              centered
-              open={open}
-              onOk={() => setOpen(false)}
-              onCancel={() => setOpen(false)}
-              width={1000}
-            >
-              <BookingDetail bookingInfo={item} />
-            </Modal>
-          </List.Item>
-        )}
-      </VirtualList>
-    </List>
+    <div className="">
+      <h1>Booking Screen</h1>
+      <Table columns={columns} dataSource={data} />
+    </div>
   );
 };
 

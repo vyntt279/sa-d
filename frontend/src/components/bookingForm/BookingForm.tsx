@@ -1,10 +1,10 @@
-import { DatePicker, Form, Input, Checkbox, InputNumber, notification, Button, Card } from 'antd';
-import { useEffect, useState } from 'react';
+import { DatePicker, Form, Input, Checkbox, InputNumber, Button, Card } from 'antd';
+import { useState, memo } from 'react';
 import { ArrowRightOutlined } from '@ant-design/icons'
+import * as dayjs from 'dayjs'
 
 
 import RoomDetail, { RoomDetailInfo } from './RoomDetail';
-import { url } from 'stores/constant'
 import moment from 'moment'
 import type { RangePickerProps } from 'antd/es/date-picker';
 
@@ -27,62 +27,37 @@ const tailFormItemLayout = {
 };
 
 type BookingFormProps = {
-  roomNum: string | undefined,
+  roomInfo: RoomDetailInfo | undefined,
   activateTab: number,
   setActivateKey: any,
   setFinishTab1: any,
-  setToTime: any, 
-  setFromTime: any
+  setToTime: any,
+  setFromTime: any,
+  setTotalCost: any,
+  setCustomerInfo: any
 }
 
-const BookingForm = ({ roomNum, activateTab, setActivateKey, setFinishTab1, setFromTime, setToTime }: BookingFormProps) => {
+const BookingForm = ({ setCustomerInfo, setTotalCost, roomInfo, activateTab, setActivateKey, setFinishTab1, setFromTime, setToTime }: BookingFormProps) => {
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
       +84
     </Form.Item>
   );
 
-  const [roomInfo, setRoomInfo] = useState<RoomDetailInfo>()
-  const [currentFromTime, setCurrentFromTime] = useState("")
-  const [currentToTime, setCurrentToTime] = useState("")
-
-  const getRoomInfo = async (roomNum: string) => {
-    console.log('Room ID:', roomNum);
-    await fetch(url + `/rooms/${roomNum}`, {
-      mode: "cors",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        setRoomInfo(response)
-        console.log("Room info: ", response)
-      })
-      .catch((reason) => {
-        console.log(reason)
-        notification.info({
-          message: `Cannot get the room info, please try again`,
-        });
-      })
-
-  };
-
-  useEffect(() => {
-    if (roomNum != undefined) {
-      getRoomInfo(roomNum)
-    }
-  }, [])
+  const [currentFromTime, setCurrentFromTime] = useState<dayjs.Dayjs>()
+  const [currentToTime, setCurrentToTime] = useState<dayjs.Dayjs>()
+  const [adults, setAdults] = useState<number>(1)
+  const [children, setChildren] = useState<number>(0)
 
   const handleSubmit = (value: any) => {
-    console.log('Submit')
+    console.log('Submit', value)
+    var interval = currentToTime?.diff(currentFromTime, 'day')
+    setTotalCost(Number(roomInfo?.price) * (interval || 0))
     setActivateKey(activateTab + 1)
     setFinishTab1(true)
-    setFromTime(currentFromTime)
-    setToTime(currentToTime)
+    setFromTime(currentFromTime?.toString())
+    setToTime(currentToTime?.toString())
+    setCustomerInfo({ email: localStorage.getItem('email'), phoneNumber: value.phone, adults: adults, children: children })
   }
 
   const onChange: RangePickerProps['onChange'] = (dates, dateStrings) => {
@@ -90,8 +65,8 @@ const BookingForm = ({ roomNum, activateTab, setActivateKey, setFinishTab1, setF
       const start = dates[0], end = dates[1]
       console.log('From: ', start, ', to: ', end);
       if (start != undefined && end != undefined) {
-        setCurrentFromTime(start.toString())
-        setCurrentToTime(end.toString())
+        setCurrentFromTime(start)
+        setCurrentToTime(end)
       }
     } else {
       console.log('Clear');
@@ -104,7 +79,8 @@ const BookingForm = ({ roomNum, activateTab, setActivateKey, setFinishTab1, setF
       <Card style={{ width: "50%" }}>
         <RoomDetail {...roomInfo} />
       </Card >
-      <Form className='self-center ml-8' name="booking_form" onFinish={handleSubmit}>
+      <Form labelCol={{ span: 7 }}
+        wrapperCol={{ span: 14 }} className='self-center ml-8' name="booking_form" onFinish={handleSubmit} >
         <Card className='p-10'>
           <Form.Item
             name="phone"
@@ -114,17 +90,13 @@ const BookingForm = ({ roomNum, activateTab, setActivateKey, setFinishTab1, setF
             <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
           </Form.Item>
           <Form.Item name="range-picker" label="Date" {...rangeConfig}>
-            <RangePicker onChange={onChange} disabledDate={(currentDate) => currentDate.isBefore(moment().startOf('date').toDate())}/>
+            <RangePicker onChange={onChange} disabledDate={(currentDate) => currentDate.isBefore(moment().startOf('date').toDate())} />
           </Form.Item>
-          <Form.Item label="Adult">
-            <Form.Item name="adult" noStyle>
-              <InputNumber min={1} max={2} />
-            </Form.Item>
+          <Form.Item name="adults" label="Adult">
+            <InputNumber defaultValue={1} onChange={(value) => setAdults(value || 0)} value={adults} min={1} max={2} />
           </Form.Item>
-          <Form.Item label="Children">
-            <Form.Item name="children" noStyle>
-              <InputNumber min={0} max={4} />
-            </Form.Item>
+          <Form.Item name="children" label="Children">
+            <InputNumber defaultValue={0} onChange={(value) => setChildren(value || 0)} value={children} min={0} max={4} />
           </Form.Item>
           <Form.Item
             name="agreement"
@@ -151,4 +123,4 @@ const BookingForm = ({ roomNum, activateTab, setActivateKey, setFinishTab1, setF
   )
 }
 
-export default BookingForm;
+export default memo(BookingForm);

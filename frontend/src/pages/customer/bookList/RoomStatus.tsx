@@ -38,28 +38,11 @@ const RoomStatus = ({ roomNum }: RoomStatusProps) => {
       });
   }
 
-
-  const renderStatus = (status: string) => {
-    var color = status == 'available' ? 'green' : 'geekblue';
-    if (status === 'loser') {
-      color = 'volcano';
-    }
-    return (
-      <Tag color={color} key={status}>
-        {status != undefined ? status.toUpperCase() : "UNDEFINED"}
-      </Tag>
-    );
-  }
-
   const renderData = () => {
     return data != undefined ? (<div>
       Room type: {data?.type}
       <br />
       Price per day: {data?.price}
-      <br />
-      Room Number: {data?.roomNum}
-      <br />
-      Status: {renderStatus(data?.status)}
       <br />
     </div>) : "Cannot get information of this room"
   }
