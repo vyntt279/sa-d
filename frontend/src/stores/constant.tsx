@@ -3,7 +3,8 @@ import { notification } from 'antd'
 
 import bedroom from "assets/bedroom.jpg"
 import livingroom from "assets/livingroom.jpg"
-export const url = "https://backend-6ch5yx6zaq-et.a.run.app"
+// export const url = "https://backend-6ch5yx6zaq-et.a.run.app"
+export const url = "http://localhost:8080"
 export const images = [bedroom, livingroom]
 export const fetchData =
   (
@@ -39,7 +40,6 @@ export const fetchData =
           if (successfulMessage != undefined) {
             notification.info({
               message: successfulMessage,
-              placement: 'top',
             });
           }
           if (successfulEvent != undefined) {
@@ -54,7 +54,7 @@ export const fetchData =
         }
         notification.info({
           message: errorMessage,
-          placement: 'top',
+          
         });
       })
   }

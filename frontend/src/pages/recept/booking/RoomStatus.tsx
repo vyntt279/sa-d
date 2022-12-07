@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, memo } from "react"
 import { Button, Popover, Tag } from "antd"
 
 import { RoomCard } from 'components/roomList/RoomList'
@@ -10,7 +10,18 @@ type RoomStatusProps = {
 }
 
 const RoomStatus = ({ roomNum }: RoomStatusProps) => {
+  const [open, setOpen] = useState(false);
   const [data, setData] = useState<RoomCard>();
+
+  const hide = () => {
+    setOpen(false);
+  };
+
+  const handleOpenChange = (newOpen: boolean) => {
+    getRoomInfo()
+    setOpen(newOpen);
+  };
+
   const getRoomInfo = async () => {
     await fetch(url + `/rooms/${roomNum}`, {
       mode: 'cors',
@@ -27,9 +38,7 @@ const RoomStatus = ({ roomNum }: RoomStatusProps) => {
         }
       });
   }
-  useEffect(() => {
-    getRoomInfo()
-  })
+
 
   const renderStatus = (status: string) => {
     var color = status == 'available' ? 'green' : 'geekblue';
@@ -43,8 +52,8 @@ const RoomStatus = ({ roomNum }: RoomStatusProps) => {
     );
   }
 
-  return (<>
-    <Popover content={data != undefined? (<div>
+  const renderData = () => {
+    return data != undefined ? (<div>
       Room type: {data?.type}
       <br />
       Price per day: {data?.price}
@@ -53,10 +62,18 @@ const RoomStatus = ({ roomNum }: RoomStatusProps) => {
       <br />
       Status: {renderStatus(data?.status)}
       <br />
-    </div>) : "Cannot get information of this room"} title={`Room ${roomNum}`}>
+    </div>) : "Cannot get information of this room"
+  }
+
+  return (<>
+    <Popover content={renderData()} title={`Room ${roomNum}`}
+      trigger="click"
+      open={open}
+      onOpenChange={handleOpenChange }
+    >
       <Button >{roomNum}</Button>
     </Popover>
   </>)
 }
 
-export default RoomStatus;
+export default memo(RoomStatus);

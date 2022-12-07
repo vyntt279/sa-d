@@ -66,7 +66,6 @@ const BookingForm = ({ roomNum, activateTab, setActivateKey, setFinishTab1, setF
         console.log(reason)
         notification.info({
           message: `Cannot get the room info, please try again`,
-          placement: 'top',
         });
       })
 

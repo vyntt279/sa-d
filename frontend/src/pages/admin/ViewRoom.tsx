@@ -63,31 +63,39 @@ const handleDeleteRoom = async (roomNum: string) => {
         .then((response) => response.json())
         .then((response) => {
             console.log('Data', response)
+            if (response.error == undefined) {
+                window.location.reload()
+                notification.info({
+                    message: `Delete room ${roomNum} successful`,
+                }
+                )
+            }
         })
         .catch((reason) => {
             console.log(reason)
             notification.info({
                 message: `Cannot remove room ${roomNum}, please try again`,
-                placement: 'top',
             });
         })
+
+
 }
 
 const columns: ColumnsType<RoomInfo> = [
     {
-        title: 'ID.',
-        dataIndex: 'id',
-        key: 'id',
+        title: 'Room Num.',
+        dataIndex: 'roomNum',
+        key: 'roomNum',
     },
     {
         title: 'Room Type',
-        dataIndex: 'roomtype',
-        key: 'roomtype',
-    },
-    {
-        title: 'Room Number',
-        dataIndex: 'roomNum',
-        key: 'roomNum',
+        dataIndex: 'type',
+        key: 'type', 
+        render: (_, { type }) => {
+            return (
+                <div className="capitalize">{type}</div>
+            );
+        }
     },
     {
         title: 'Price',
@@ -159,7 +167,7 @@ const ViewRoom = () => {
                 console.log(reason)
                 notification.info({
                     message: `Cannot get all rooms, please try again`,
-                    placement: 'top',
+
                 });
             })
     }

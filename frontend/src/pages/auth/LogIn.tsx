@@ -4,9 +4,16 @@ import { ArrowLeftOutlined } from '@ant-design/icons'
 import jwt from 'jwt-decode';
 import bg from 'assets/bg.jpg'
 import { fetchData, url } from 'stores/constant'
+import { useEffect } from "react";
 
 const LogIn = () => {
   var navigate = useNavigate();
+  useEffect(() => {
+    if (localStorage.getItem('authorization') != undefined) {
+      navigate("/")
+    }
+  }, [])
+  
   const handleResponse = (response: any) => {
     console.log('Data', response)
     localStorage.setItem('authorization', response.token)
@@ -57,7 +64,6 @@ const LogIn = () => {
         console.log(reason)
         notification.info({
           message: `Cannot log in, please try again`,
-          placement: 'top',
         });
       })
 

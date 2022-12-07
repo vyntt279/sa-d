@@ -23,11 +23,9 @@ const ROLES = {
 const App = () => {
   return (
     <Routes>
-      <Route path="login" element={<LogIn />} />
       <Route path="signup" element={<SignUp />} />
-
+      <Route path="login" element={<LogIn />} />
       <Route path="/" element={<MyLayout />}>
-        <Route path="/admin" element={<Admin />} />
         <Route element={<RequireAuth allowedRoles={[ROLES.CUSTOMER]} />}>
           <Route path="/" element={<Home />} />
           <Route path="bookings" element={<BookList />} />
@@ -35,6 +33,7 @@ const App = () => {
           <Route path="book-process/:roomNum" element={<Booking />} />
         </Route>
         <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
+          <Route path="/admin" element={<Admin />} />
         </Route>
         <Route element={<RequireAuth allowedRoles={[ROLES.RECEIPTIONIST]} />}>
           <Route path="/receptionist" element={<Receptionist />} />

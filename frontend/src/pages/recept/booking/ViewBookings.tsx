@@ -18,6 +18,39 @@ const renderPayment = (status: string) => {
   );
 }
 
+const fakeData: BookingListItem[] = [{
+  id: "1",
+  roomNum: "199",
+  status: "expired",
+  fromTime: new Date(),
+  toTime: new Date(),
+  paymentMethod: "card"
+},
+{
+  id: "2",
+  roomNum: "199",
+  status: "waiting",
+  fromTime: new Date(),
+  toTime: new Date(),
+  paymentMethod: "card"
+},
+{
+  id: "3",
+  roomNum: "199",
+  status: "checked in",
+  fromTime: new Date(),
+  toTime: new Date(),
+  paymentMethod: "card"
+},
+{
+  id: "4",
+  roomNum: "199",
+  status: "checked out",
+  fromTime: new Date(),
+  toTime: new Date(),
+  paymentMethod: "card"
+}]
+
 const columns: ColumnsType<BookingListItem> = [
   {
     title: 'ID',
@@ -25,7 +58,7 @@ const columns: ColumnsType<BookingListItem> = [
     key: 'id',
   },
   {
-    title: 'Room Number',
+    title: 'Room Num',
     dataIndex: 'roomNum',
     key: 'roomNum',
     render: (_, { roomNum }) => {
@@ -35,9 +68,33 @@ const columns: ColumnsType<BookingListItem> = [
     }
   },
   {
+    title: 'Check In Time',
+    dataIndex: 'checkInTime',
+    key: 'checkInTime',
+    render: (_, { fromTime }) => {
+      return (<>
+        <p>Date: {fromTime.toDateString()}</p>
+        <p>Time: {fromTime.toTimeString()}</p>
+      </>
+      )
+    }
+  },
+  {
+    title: 'Check Out Time',
+    dataIndex: 'checkOutTime',
+    key: 'checkOutTime',
+    render: (_, { toTime }) => {
+      return (<>
+        <p>Date: {toTime.toLocaleDateString()}</p>
+        <p>Time: {toTime.toLocaleTimeString()}</p>
+      </>
+      )
+    }
+  },
+  {
     title: 'Cost',
-    dataIndex: 'roomNum',
-    key: 'roomNum',
+    dataIndex: 'totalPrice',
+    key: 'totalPrice',
     render: (_, { roomNum }) => {
       return (<>
         <Statistic value={roomNum} prefix='$' valueStyle={{ fontSize: '1em' }} />
@@ -52,8 +109,8 @@ const columns: ColumnsType<BookingListItem> = [
     key: 'status',
     dataIndex: 'status',
     render: (_, { status }) => {
-      var color = status == 'awaiting' ? 'green' : 'geekblue';
-      if (status === 'loser') {
+      var color = status == 'waiting' ? 'green' : 'geekblue';
+      if (status === 'expired') {
         color = 'volcano';
       }
       return (
@@ -66,63 +123,49 @@ const columns: ColumnsType<BookingListItem> = [
   {
     title: 'Action',
     key: 'action',
-    render: (_, record) => (
+    render: (_, { id, status }) => (
       <Space className="">
-        <Button type='primary' onClick={handleCheckIn}>Check In</Button>
-        <Button onClick={handleCheckOut}>Check Out</Button>
+        <Button disabled={status !== 'waiting'} type='primary' onClick={() => updateBookingStatus(id, "checked in")}>Check In</Button>
+        <Button disabled={status !== 'checked in'} onClick={() => updateBookingStatus(id, "checked out")}>Check Out</Button>
       </Space>
     ),
-  },
+  }
 ]
-const handleCheckIn = async () => {
-  // await fetch(url + "/bookings/getAllBooking", {
-  //   mode: "cors",
-  //   headers: {
-  //     'Accept': 'application/json',
-  //     'Content-Type': 'application/json',
-  //     'Authorization': 'Bearer ' + localStorage.getItem('authorization')
-  //   },
-  //   method: "GET",
-  // })
-  //   .then((response) => response.json())
-  //   .then((response) => {
-  //     console.log('Data', response)
 
-  //   })
-  //   .catch((reason) => {
-  //     console.log(reason)
-  //     notification.info({
-  //       message: `Cannot check in, please try again`,
-  //       placement: 'top',
-  //     });
-  //   })
-}
-const handleCheckOut = async () => {
-  // await fetch(url + "/bookings/getAllBooking", {
-  //   mode: "cors",
-  //   headers: {
-  //     'Accept': 'application/json',
-  //     'Content-Type': 'application/json',
-  //     'Authorization': 'Bearer ' + localStorage.getItem('authorization')
-  //   },
-  //   method: "GET",
-  // })
-  //   .then((response) => response.json())
-  //   .then((response) => {
-  //     console.log('Data', response)
 
-  //   })
-  //   .catch((reason) => {
-  //     console.log(reason)
-  //     notification.info({
-  //       message: `Cannot check out, please try again`,
-  //       placement: 'top',
-  //     });
-  //   })
+const updateBookingStatus = async (bookingId: string, status: string) => {
+  await fetch(url + "/bookings/update", {
+    mode: "cors",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('authorization')
+    },
+    method: "POST",
+    body: JSON.stringify({
+      bookingId: bookingId,
+      status: status
+    })
+  })
+    .then((response) => response.json())
+    .then((response) => {
+      console.log('Data', response)
+      if (response.error == undefined) {
+        notification.info({
+          message: `${bookingId} is ${status} successfully`
+        })
+      }
+    })
+    .catch((reason) => {
+      console.log(reason)
+      notification.info({
+        message: `Failed, please try again`,
+      });
+    })
 }
 
 const ViewBooking = () => {
-  const [data, setData] = useState<BookingListItem[]>([])
+  const [data, setData] = useState<BookingListItem[]>(fakeData)
 
   const getAllBookings = async () => {
     await fetch(url + "/bookings/getAllBooking", {
@@ -137,20 +180,20 @@ const ViewBooking = () => {
       .then((response) => response.json())
       .then((response) => {
         console.log('Data', response)
-        setData(response)
+        if (response.error == undefined) {
+          setData(response)
+        }
       })
       .catch((reason) => {
         console.log(reason)
         notification.info({
           message: `Cannot get all bookings, please try again`,
-          placement: 'top',
         });
       })
   };
 
   useEffect(() => {
     getAllBookings()
-    console.log('Check again', data)
   }, [])
 
   return (
