@@ -72,7 +72,7 @@ const columns: ColumnsType<BookingListItem> = [
     dataIndex: 'checkInTime',
     key: 'checkInTime',
     render: (_, { fromTime }) => {
-      const date = new Date(fromTime._seconds)
+      const date = new Date(fromTime._seconds*1000)
       return (<>
         <p>Date: {date.toDateString()}</p>
         <p>Time: {date.toTimeString()}</p>
@@ -85,7 +85,7 @@ const columns: ColumnsType<BookingListItem> = [
     dataIndex: 'checkOutTime',
     key: 'checkOutTime',
     render: (_, { toTime }) => {
-      const date = new Date(toTime._seconds)
+      const date = new Date(toTime._seconds*1000)
       return (<>
         <p>Date: {date.toDateString()}</p>
         <p>Time: {date.toTimeString()}</p>

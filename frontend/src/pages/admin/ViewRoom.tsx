@@ -64,7 +64,7 @@ const handleDeleteRoom = async (id: string, roomNum: string) => {
         .then((response) => {
             console.log('Data', response)
             if (response.error == undefined) {
-                window.location.reload()  
+                window.location.reload()
                 notification.info({
                     message: `Delete room ${roomNum} successful`,
                 }

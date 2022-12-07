@@ -24,7 +24,7 @@ const PreviewBooking = ({ customerInfo, roomInfo, setFinishTab2, setActivateKey,
         bordered
         column={1}
       >
-        <Descriptions.Item label="Type">${roomInfo?.type}</Descriptions.Item>
+        <Descriptions.Item label="Type" className="capitalize">{roomInfo?.type}</Descriptions.Item>
         <Descriptions.Item label="Price per day" >${roomInfo?.price}</Descriptions.Item>
         <Descriptions.Item label="Description">
           <Popover content={roomInfo?.description} title={`Description`}>

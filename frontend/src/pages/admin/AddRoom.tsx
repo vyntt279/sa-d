@@ -58,7 +58,7 @@ const AddRoom: React.FC = () => {
       body: JSON.stringify({
         roomNum: values.roomNum,
         type: values.type,
-        status: "undefined",
+        status: "available",
         price: values.price.toString(),
         description: values.description,
         bookingId: "undefined",
