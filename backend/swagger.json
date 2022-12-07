@@ -274,56 +274,6 @@
                 }
             }
         },
-        "/rooms/status": {
-            "post": {
-                "tags": [
-                    "rooms"
-                ],
-                "summary": "Update room status",
-                "operationId": "updateRoomStatus",
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "roomNum": {
-                                        "type": "string"
-                                    },
-                                    "status": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "description": "Room object that needs to be updated",
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "roomNum": "string",
-                                "status": "string"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid input"
-                    },
-                    "500": {
-                        "description": "Internal server error"
-                    }
-                }
-            }
-        },
         "/rooms/{roomNum}": {
             "get": {
                 "tags": [
@@ -488,6 +438,55 @@
                         }
                     },
                     "description": "Room object that needs to be deleted from the system",
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "bookingId": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/bookings/update": {
+            "post": {
+                "tags": [
+                    "bookings"
+                ],
+                "summary": "Update an existing booking",
+                "operationId": "updateBooking",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "bookingId": {
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "description": "Booking object that needs to be updated in the system",
                     "required": true
                 },
                 "responses": {
