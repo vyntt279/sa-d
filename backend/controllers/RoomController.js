@@ -43,7 +43,7 @@ const deleteRoom = async (req, res) => {
     } = req.body
 
     try {
-        const doc = await firestore.collection('rooms').doc(roomId).get();
+        const doc = await firestore.collection('rooms').where('roomNum', '==', roomNum).get();
         const id = doc.id;
         if (!doc.exists) {
             return res.status(400).json({ error: 'Bad request' });
