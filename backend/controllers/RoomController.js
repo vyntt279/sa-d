@@ -45,13 +45,18 @@ const deleteRoom = async (req, res) => {
     try {
         const doc = await firestore.collection('rooms').where('roomNum', '==', roomNum).get();
         const id = doc.id;
-        if (!doc.exists) {
+        if (doc.empty) {
             return res.status(400).json({ error: 'Bad request' });
         }
         
-        await doc.ref.delete();
-
-        return res.status(200).json({ id });
+        Promise.all(doc.docs.map((doc) => doc.ref.delete()))
+        .then(() => {
+            return res.status(200).json({ id });
+        })
+        .catch((error) => {
+            console.error(error);
+            return res.status(500).json({ error });
+        });
     }
     catch (error) {
         console.error(error);
@@ -85,4 +90,10 @@ const getRoom = async (req, res) => {
     }
 }
 
-module.exports = { createRoom, deleteRoom, getRoom }
+const getAllRooms = async (req, res) => {
+    const snapshot = await firestore.collection('rooms').get();
+    const list = snapshot.docs.map((doc) => ({id: doc.id, ...doc.data()}));
+    res.send(list);
+}
+
+module.exports = { createRoom, deleteRoom, getRoom, getAllRooms }
