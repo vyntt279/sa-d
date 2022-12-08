@@ -33,13 +33,30 @@ const Navbar = () => {
   const handleLogOut = () => {
     localStorage.removeItem('username')
     localStorage.removeItem('authorization')
+    localStorage.removeItem('role')
     window.location.reload()
+  }
+
+  const homePage = () => {
+    var role = localStorage.getItem('role')
+    console.log("Role ",role)
+    switch (role) {
+      case "admin":
+        console.log("Here 1")
+        return "/admin"
+      case "receptionist":
+        console.log("Here 2")
+        return "/receptionist"
+      default:
+        console.log("Here 3")
+        return "/"
+    }
   }
 
   return (
     <div className="navbar">
       <div className="navContainer">
-        <a className="logo no-underline text-white" href="/">lamabooking</a>
+        <a className="logo no-underline text-white" href={homePage()}>lamabooking</a>
         <div className="navItems">
           <Space>
             <div id="authentication">
